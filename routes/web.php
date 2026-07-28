@@ -5,6 +5,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\SentinelaController;
+use App\Http\Controllers\UtilizadorController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sentinela/{sentinela}', [SentinelaController::class, 'destroy'])->name('sentinela.destroy');
 
     Route::get('/painel', PainelController::class)->name('painel');
+    Route::get('/utilizadores', UtilizadorController::class)->name('utilizadores');
 
     Route::get('/perfil', [PageController::class, 'perfil'])->name('perfil');
     Route::get('/sobre', [PageController::class, 'sobre'])->name('sobre');

@@ -3,6 +3,8 @@ import { onMounted, computed } from 'vue';
 import Chart from 'chart.js/auto';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Link } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 import AppLayout from '../Layouts/AppLayout.vue';
 import { ICONS } from '../icons';
 
@@ -96,36 +98,38 @@ function exportarPDF() {
         </div>
 
         <div class="stat-grid">
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.folder"></div></div><div class="val">{{ stats.total }}</div><div class="lbl">Total de Pedidos</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.clock"></div></div><div class="val">{{ stats.abertos }}</div><div class="lbl">Abertos</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.activity"></div></div><div class="val">{{ stats.andamento }}</div><div class="lbl">Em Andamento</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.shieldCheck"></div></div><div class="val">{{ stats.concluidos }}</div><div class="lbl">Concluídos</div></div>
+            <Link :href="route('pedidos.visualizar')" class="card stat"><div class="top"><div class="ico" v-html="ICONS.folder"></div></div><div class="val">{{ stats.total }}</div><div class="lbl">Total de Pedidos</div></Link>
+            <Link :href="route('pedidos.visualizar', { estado: 'Aberto' })" class="card stat"><div class="top"><div class="ico warn" v-html="ICONS.clock"></div></div><div class="val">{{ stats.abertos }}</div><div class="lbl">Abertos</div></Link>
+            <Link :href="route('pedidos.visualizar', { estado: 'Em Andamento' })" class="card stat"><div class="top"><div class="ico" v-html="ICONS.activity"></div></div><div class="val">{{ stats.andamento }}</div><div class="lbl">Em Andamento</div></Link>
+            <Link :href="route('pedidos.visualizar', { estado: 'Concluído' })" class="card stat"><div class="top"><div class="ico success" v-html="ICONS.shieldCheck"></div></div><div class="val">{{ stats.concluidos }}</div><div class="lbl">Concluídos</div></Link>
+        </div>
+
+        <div class="chart-grid">
+            <div class="card chart-card">
+                <h4>Distribuição por Estado</h4>
+                <p>Proporção de pedidos por situação atual.</p>
+                <canvas id="chart-donut" height="220"></canvas>
+            </div>
+            <div class="card chart-card">
+                <h4>Pedidos nos últimos 14 dias</h4>
+                <p>Volume diário de pedidos criados.</p>
+                <canvas id="chart-dia" height="220"></canvas>
+            </div>
         </div>
 
         <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">Monitoramento do Sistema</h1><p>Indicadores gerais, além dos pedidos.</p></div></div>
         <div class="stat-grid">
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.users"></div></div><div class="val">{{ monitoramento.publicadores }}</div><div class="lbl">Publicadores Registados</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.book"></div></div><div class="val">{{ monitoramento.sentinelaPendentes }}</div><div class="lbl">Sentinela Pendentes</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.gauge"></div></div><div class="val">{{ monitoramento.taxaConclusao }}%</div><div class="lbl">Taxa de Conclusão</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.server"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.ultimaAtualizacao) }}</div><div class="lbl">Última Atividade no Sistema</div></div>
+            <Link :href="route('utilizadores')" class="card stat"><div class="top"><div class="ico gold" v-html="ICONS.users"></div></div><div class="val">{{ monitoramento.publicadores }}</div><div class="lbl">Publicadores Registados</div></Link>
+            <Link :href="route('sentinela.index')" class="card stat"><div class="top"><div class="ico warn" v-html="ICONS.book"></div></div><div class="val">{{ monitoramento.sentinelaPendentes }}</div><div class="lbl">Sentinela Pendentes</div></Link>
+            <div class="card stat"><div class="top"><div class="ico success" v-html="ICONS.gauge"></div></div><div class="val">{{ monitoramento.taxaConclusao }}%</div><div class="lbl">Taxa de Conclusão</div></div>
+            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.server"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.ultimaAtualizacao) }}</div><div class="lbl">Última Atividade no Sistema</div></div>
         </div>
 
         <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">A sua conta</h1></div></div>
         <div class="stat-grid">
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.user"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.contaCriadaEm) }}</div><div class="lbl">Conta Criada Em</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.activity"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.sessaoDesde) }}</div><div class="lbl">Última Atividade da Sessão</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.shieldCheck"></div></div><div class="val" style="font-size:15px;">{{ monitoramento.nomeUtilizador }}</div><div class="lbl">Nome de Utilizador</div></div>
-        </div>
-
-        <div class="chart-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-            <div class="card" style="padding:18px;">
-                <h3 style="margin:0 0 14px; font-size:15px;">Distribuição por Estado</h3>
-                <canvas id="chart-donut" height="220"></canvas>
-            </div>
-            <div class="card" style="padding:18px;">
-                <h3 style="margin:0 0 14px; font-size:15px;">Pedidos nos últimos 14 dias</h3>
-                <canvas id="chart-dia" height="220"></canvas>
-            </div>
+            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.shieldCheck"></div></div><div class="val" style="font-size:15px;">{{ monitoramento.nomeUtilizador }}</div><div class="lbl">Nome de Utilizador</div></div>
+            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.user"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.contaCriadaEm) }}</div><div class="lbl">Conta Criada Em</div></div>
+            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.activity"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.sessaoDesde) }}</div><div class="lbl">Última Atividade da Sessão</div></div>
         </div>
     </section>
 </template>

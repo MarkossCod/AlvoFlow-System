@@ -67,8 +67,9 @@ function doLogout() {
   <div id="bottomnav">
     <div id="submenu-host">
       <div v-if="openSubmenu" class="submenu show" style="right:0; left:0; margin:auto; width:240px; position:absolute; bottom:64px;">
-        <Link :href="route('sobre')" @click="closeSubmenu"><span v-html="ICONS.info"></span><span>Sobre o Sistema</span></Link>
-        <Link :href="route('perfil')" @click="closeSubmenu"><span v-html="ICONS.user"></span><span>Configurações de Perfil</span></Link>
+        <Link :href="route('utilizadores')" prefetch @click="closeSubmenu"><span v-html="ICONS.users"></span><span>Utilizadores Registados</span></Link>
+        <Link :href="route('sobre')" prefetch @click="closeSubmenu"><span v-html="ICONS.info"></span><span>Sobre o Sistema</span></Link>
+        <Link :href="route('perfil')" prefetch @click="closeSubmenu"><span v-html="ICONS.user"></span><span>Configurações de Perfil</span></Link>
         <div style="border-top:1px solid var(--border); margin:6px 0;"></div>
         <div style="font-size:11px; color:var(--text-muted); padding:4px 12px 6px;">TEMA</div>
         <div class="theme-row" style="padding:0 6px 6px;">
@@ -85,6 +86,7 @@ function doLogout() {
         :href="route(item.route)"
         :class="{ active: currentRouteName === item.route }"
         :data-label="item.label"
+        prefetch
         @click="closeSubmenu"
       >
         <span class="nav-icon" v-html="ICONS[item.icon]"></span>

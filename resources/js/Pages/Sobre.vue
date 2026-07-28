@@ -10,7 +10,7 @@ const funcionalidades = [
     { icon: ICONS.book, titulo: 'Pedidos de Sentinela', desc: 'Lista dinâmica de pedidos por edição, com filtro por status.' },
     { icon: ICONS.folder, titulo: 'Visualização e Calendário', desc: 'Galeria de pedidos e calendário mensal, com exportação .ics.' },
     { icon: ICONS.chart, titulo: 'Painel de Controlo', desc: 'Estatísticas e gráficos em tempo real, com exportação em PDF.' },
-    { icon: ICONS.shieldCheck, titulo: 'Contas Verificadas', desc: 'Autenticação própria com verificação de email para maior segurança.' },
+    { icon: ICONS.shieldCheck, titulo: 'Autenticação Própria', desc: 'Login por nome de utilizador com recuperação de senha e de utilizador por email.' },
 ];
 
 const processo = [
@@ -64,6 +64,40 @@ const processo = [
                 <div class="step-ico">{{ i + 1 }}</div>
                 <b>{{ p.titulo }}</b>
                 <p>{{ p.desc }}</p>
+            </div>
+        </div>
+
+        <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">Acesso em Qualquer Ecrã</h1><p>Interface responsiva, do computador ao telemóvel.</p></div></div>
+        <div class="card" style="padding:32px;">
+            <div class="mockup-gallery">
+                <div>
+                    <div class="laptop-mockup">
+                        <div class="screen">
+                            <div class="mock-row"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-bar gold"></div></div>
+                            <div class="mock-row"><div class="mock-bar"></div></div>
+                            <div class="mock-row"><div class="mock-bar"></div></div>
+                            <div class="mock-card-row">
+                                <div class="mock-card"></div>
+                                <div class="mock-card"></div>
+                                <div class="mock-card"></div>
+                            </div>
+                        </div>
+                        <div class="base"></div>
+                    </div>
+                    <div class="mockup-caption">Computador</div>
+                </div>
+                <div>
+                    <div class="phone-mockup">
+                        <div class="screen">
+                            <div class="notch"></div>
+                            <div class="p-row"></div>
+                            <div class="p-card"></div>
+                            <div class="p-card"></div>
+                            <div class="p-card"></div>
+                        </div>
+                    </div>
+                    <div class="mockup-caption">Telemóvel</div>
+                </div>
             </div>
         </div>
     </section>
