@@ -7,7 +7,7 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\SentinelaController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/', HomeController::class)->name('home');
 
     Route::get('/pedidos/criar', [PedidoController::class, 'criar'])->name('pedidos.criar');

@@ -19,18 +19,17 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required'],
         ], [
-            'email.required' => 'Introduza um email válido.',
-            'email.email' => 'Introduza um email válido.',
+            'username.required' => 'Introduza o nome de utilizador.',
             'password.required' => 'A palavra-passe é obrigatória.',
         ]);
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
-                'email' => 'As credenciais indicadas não correspondem a nenhuma conta.',
-            ])->onlyInput('email');
+                'username' => 'As credenciais indicadas não correspondem a nenhuma conta.',
+            ])->onlyInput('username');
         }
 
         $request->session()->regenerate();

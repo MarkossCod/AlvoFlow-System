@@ -114,7 +114,7 @@ function exportarPDF() {
         <div class="stat-grid">
             <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.user"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.contaCriadaEm) }}</div><div class="lbl">Conta Criada Em</div></div>
             <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.activity"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.sessaoDesde) }}</div><div class="lbl">Última Atividade da Sessão</div></div>
-            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.shieldCheck"></div></div><div class="val" style="font-size:15px;">{{ monitoramento.emailVerificado ? 'Verificado' : 'Pendente' }}</div><div class="lbl">Estado do Email</div></div>
+            <div class="card stat"><div class="top"><div class="ico" v-html="ICONS.shieldCheck"></div></div><div class="val" style="font-size:15px;">{{ monitoramento.nomeUtilizador }}</div><div class="lbl">Nome de Utilizador</div></div>
         </div>
 
         <div class="chart-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">

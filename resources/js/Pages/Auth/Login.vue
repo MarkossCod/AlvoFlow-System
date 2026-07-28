@@ -5,7 +5,7 @@ import { useForm, Link } from '@inertiajs/vue3';
 import { ICONS } from '../../icons';
 
 const form = useForm({
-    email: '',
+    username: '',
     password: '',
     remember: false,
 });
@@ -46,10 +46,10 @@ function submit() {
                 <p class="sub">Aceda à sua conta para gerir os pedidos.</p>
 
                 <form @submit.prevent="submit">
-                    <div class="field" :class="{ err: form.errors.email }">
-                        <label>Email</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.mail"></span><input type="email" v-model="form.email" placeholder="ex: publicador@congregacao.pt" autofocus /></div>
-                        <div class="msg">{{ form.errors.email }}</div>
+                    <div class="field" :class="{ err: form.errors.username }">
+                        <label>Nome de utilizador</label>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.username" placeholder="o seu nome de utilizador" autofocus /></div>
+                        <div class="msg">{{ form.errors.username }}</div>
                     </div>
                     <div class="field" :class="{ err: form.errors.password }">
                         <label>Palavra-passe</label>
@@ -64,11 +64,14 @@ function submit() {
                         <label style="font-size:12.5px; color:var(--text-muted); display:flex; gap:6px; align-items:center;">
                             <input type="checkbox" v-model="form.remember" style="width:auto;" /> Manter sessão
                         </label>
-                        <span style="font-size:12.5px; color:var(--text-muted);">Esqueceu a palavra-passe?</span>
+                        <Link :href="route('password.request')" style="font-size:12.5px; color:var(--text-muted);">Esqueceu a palavra-passe?</Link>
                     </div>
                     <button type="submit" class="btn btn-primary" :disabled="form.processing">Entrar</button>
                 </form>
-                <p class="auth-foot">Ainda não tem conta? <Link :href="route('register')">Criar conta</Link></p>
+                <p class="auth-foot">
+                    Ainda não tem conta? <Link :href="route('register')">Criar conta</Link><br>
+                    <Link :href="route('username.request')" style="font-size:12.5px;">Esqueceu o nome de utilizador?</Link>
+                </p>
             </div>
         </div>
     </div>

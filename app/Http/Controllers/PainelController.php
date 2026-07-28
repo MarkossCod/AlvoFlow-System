@@ -41,7 +41,7 @@ class PainelController extends Controller
                 'ultimaAtualizacao' => Pedido::max('updated_at') ?? Sentinela::max('updated_at'),
                 'contaCriadaEm' => Auth::user()->created_at,
                 'sessaoDesde' => $sessao ? \Illuminate\Support\Carbon::createFromTimestamp($sessao->last_activity) : null,
-                'emailVerificado' => Auth::user()->hasVerifiedEmail(),
+                'nomeUtilizador' => Auth::user()->username,
             ],
         ]);
     }

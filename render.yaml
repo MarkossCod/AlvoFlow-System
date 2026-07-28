@@ -42,9 +42,10 @@ services:
         value: database
       - key: QUEUE_CONNECTION
         value: database
-      # Verificação de email: por omissão fica em "log" (não envia de verdade — grava em
-      # storage/logs/laravel.log). Troque MAIL_MAILER para "smtp" e preencha os campos
-      # abaixo (ex: Brevo, Mailgun, SES) quando quiser que o email chegue de verdade.
+      # Emails de recuperação de senha e de nome de utilizador: por omissão ficam em "log"
+      # (não envia de verdade — grava em storage/logs/laravel.log). Troque MAIL_MAILER para
+      # "smtp" e preencha os campos abaixo (ex: Brevo, Mailgun, SES) quando quiser que o
+      # email chegue de verdade aos utilizadores.
       - key: MAIL_MAILER
         value: log
       - key: MAIL_HOST

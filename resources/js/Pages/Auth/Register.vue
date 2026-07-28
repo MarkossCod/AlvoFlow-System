@@ -6,6 +6,7 @@ import { ICONS } from '../../icons';
 
 const form = useForm({
     name: '',
+    username: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -61,6 +62,11 @@ function submit() {
                         <label>Nome completo</label>
                         <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.name" placeholder="O seu nome" /></div>
                         <div class="msg">{{ form.errors.name }}</div>
+                    </div>
+                    <div class="field" :class="{ err: form.errors.username }">
+                        <label>Nome de utilizador</label>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.username" placeholder="Escolha um nome de utilizador" /></div>
+                        <div class="msg">{{ form.errors.username }}</div>
                     </div>
                     <div class="field" :class="{ err: form.errors.email }">
                         <label>Email</label>
