@@ -14,6 +14,26 @@
     @inertiaHead
 </head>
 <body>
+    <div id="splash">
+        <div class="splash-inner">
+            <div class="splash-logo">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="lgBgSplash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17324f"/><stop offset="1" stop-color="#0d1b2e"/></linearGradient>
+                        <linearGradient id="lgGoldSplash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0bf76"/><stop offset="1" stop-color="#c9a24b"/></linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="url(#lgBgSplash)"/>
+                    <path d="M32 11 L15 53" stroke="url(#lgGoldSplash)" stroke-width="7" stroke-linecap="round" fill="none"/>
+                    <path d="M32 11 L49 53" stroke="url(#lgGoldSplash)" stroke-width="7" stroke-linecap="round" fill="none"/>
+                    <path d="M21 35 L30 40 L21 45" stroke="#f4f6fa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </div>
+            <h1>AlvoFlow</h1>
+            <p>Balcão de Publicações</p>
+            <div class="splash-bar"><span></span></div>
+        </div>
+    </div>
+
     @inertia
 
     <div id="enter-transition">
@@ -33,6 +53,15 @@
             document.getElementById('enter-title').textContent = (e.detail && e.detail.title) || 'Acesso confirmado';
             el.classList.add('show');
             setTimeout(function () { el.classList.remove('show'); }, 1450);
+        });
+
+        // Splash inicial: garante uns instantes de animação da logo antes de mostrar
+        // a tela de login/painel, mesmo que os assets carreguem quase instantaneamente.
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var s = document.getElementById('splash');
+                if (s) s.classList.add('hide');
+            }, 700);
         });
     </script>
 </body>

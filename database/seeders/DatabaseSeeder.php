@@ -13,7 +13,14 @@ class DatabaseSeeder extends Seeder
     {
         User::firstOrCreate(
             ['email' => 'publicador@congregacao.pt'],
-            ['name' => 'Publicador', 'password' => bcrypt('password')]
+            ['name' => 'Publicador', 'password' => bcrypt('password'), 'email_verified_at' => now()]
+        );
+
+        // Conta de teste com acesso total ao sistema (não existe distinção de papéis/permissões
+        // no AlvoFlow hoje — qualquer conta autenticada e verificada acessa tudo).
+        User::firstOrCreate(
+            ['email' => 'admin@alvoflow.pt'],
+            ['name' => 'Administrador', 'password' => bcrypt('AlvoFlow@2026'), 'email_verified_at' => now()]
         );
 
         $nomes = ['Ana Ferreira', 'João Silva', 'Maria Costa', 'Pedro Santos', 'Rita Almeida', 'Carlos Pinto'];

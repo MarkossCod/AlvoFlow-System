@@ -2,6 +2,7 @@
 import { route } from 'ziggy-js';
 import { computed } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
+import { ICONS } from '../../icons';
 
 const form = useForm({
     name: '',
@@ -49,25 +50,27 @@ function submit() {
             </div>
 
             <div class="auth-view">
-                <div class="auth-icon-badge">✨</div>
                 <h2>Criar conta</h2>
                 <p class="sub">Registe-se em poucos segundos para começar a gerir pedidos.</p>
 
                 <form @submit.prevent="submit">
                     <div class="field" :class="{ err: form.errors.name }">
                         <label>Nome completo</label>
-                        <div class="input-wrap"><span class="ic">👤</span><input type="text" v-model="form.name" placeholder="O seu nome" /></div>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.name" placeholder="O seu nome" /></div>
                         <div class="msg">{{ form.errors.name }}</div>
                     </div>
                     <div class="field" :class="{ err: form.errors.email }">
                         <label>Email</label>
-                        <div class="input-wrap"><span class="ic">✉️</span><input type="email" v-model="form.email" placeholder="ex: nome@email.com" /></div>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.mail"></span><input type="email" v-model="form.email" placeholder="ex: nome@email.com" /></div>
                         <div class="msg">{{ form.errors.email }}</div>
                     </div>
+
+                    <div class="field-divider"></div>
+
                     <div class="field" :class="{ err: form.errors.password }">
                         <label>Palavra-passe</label>
                         <div class="input-wrap">
-                            <span class="ic">🔒</span>
+                            <span class="ic" v-html="ICONS.lock"></span>
                             <input type="password" v-model="form.password" placeholder="Mínimo 8 caracteres" />
                         </div>
                         <div class="strength"><span :style="{ width: (strength * 100) + '%', background: strengthColor }"></span></div>
@@ -80,13 +83,14 @@ function submit() {
                     </div>
                     <div class="field">
                         <label>Confirmar palavra-passe</label>
-                        <div class="input-wrap"><span class="ic">🔒</span><input type="password" v-model="form.password_confirmation" placeholder="Repita a palavra-passe" /></div>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.lock"></span><input type="password" v-model="form.password_confirmation" placeholder="Repita a palavra-passe" /></div>
                     </div>
+
                     <label class="terms-check">
                         <input type="checkbox" v-model="form.terms" />
                         <span>Concordo com os <a @click.stop>Termos de Utilização</a> e a <a @click.stop>Política de Privacidade</a> do AlvoFlow.</span>
                     </label>
-                    <button type="submit" class="btn btn-primary" :disabled="form.processing">Criar conta ✨</button>
+                    <button type="submit" class="btn btn-primary" :disabled="form.processing">Criar conta</button>
                 </form>
                 <p class="auth-foot">Já tem conta? <Link :href="route('login')">Entrar</Link></p>
             </div>

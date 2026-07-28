@@ -42,3 +42,18 @@ services:
         value: database
       - key: QUEUE_CONNECTION
         value: database
+      # Verificação de email: por omissão fica em "log" (não envia de verdade — grava em
+      # storage/logs/laravel.log). Troque MAIL_MAILER para "smtp" e preencha os campos
+      # abaixo (ex: Brevo, Mailgun, SES) quando quiser que o email chegue de verdade.
+      - key: MAIL_MAILER
+        value: log
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_PORT
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        sync: false

@@ -1,6 +1,7 @@
 <script setup>
 import { route } from 'ziggy-js';
 import { useForm, Link } from '@inertiajs/vue3';
+import { ICONS } from '../../icons';
 
 const form = useForm({
     email: '',
@@ -44,12 +45,12 @@ function submit() {
                 <form @submit.prevent="submit">
                     <div class="field" :class="{ err: form.errors.email }">
                         <label>Email</label>
-                        <input type="email" v-model="form.email" placeholder="ex: publicador@congregacao.pt" autofocus />
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.mail"></span><input type="email" v-model="form.email" placeholder="ex: publicador@congregacao.pt" autofocus /></div>
                         <div class="msg">{{ form.errors.email }}</div>
                     </div>
                     <div class="field" :class="{ err: form.errors.password }">
                         <label>Palavra-passe</label>
-                        <input type="password" v-model="form.password" placeholder="••••••••" />
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.lock"></span><input type="password" v-model="form.password" placeholder="••••••••" /></div>
                         <div class="msg">{{ form.errors.password }}</div>
                     </div>
                     <div class="auth-switch">
