@@ -1,0 +1,100 @@
+<script setup>
+import { route } from 'ziggy-js';
+import { ref, computed } from 'vue';
+import { Link, usePage, router } from '@inertiajs/vue3';
+import { ICONS } from '../icons';
+import PedidoDetailModal from '../Components/PedidoDetailModal.vue';
+import PedidoEditModal from '../Components/PedidoEditModal.vue';
+
+const page = usePage();
+
+const NAV_ITEMS = [
+  { key: 'home', icon: 'home', label: 'Início', route: 'home' },
+  { key: 'criar', icon: 'plus', label: 'Criar Pedido', route: 'pedidos.criar' },
+  { key: 'pesquisar', icon: 'search', label: 'Pesquisar', route: 'pedidos.pesquisar' },
+  { key: 'sentinela', icon: 'book', label: 'Sentinela', route: 'sentinela.index' },
+  { key: 'visualizar', icon: 'folder', label: 'Visualizar', route: 'pedidos.visualizar' },
+  { key: 'painel', icon: 'chart', label: 'Painel', route: 'painel' },
+];
+
+const currentRouteName = computed(() => route().current());
+const openSubmenu = ref(false);
+
+const theme = ref(typeof window !== 'undefined' ? (localStorage.getItem('alvoflow-theme') || 'light') : 'light');
+
+function applyTheme(t) {
+  theme.value = t;
+  localStorage.setItem('alvoflow-theme', t);
+  const resolved = t === 'system'
+    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : t;
+  document.documentElement.setAttribute('data-theme', resolved);
+}
+
+function toggleMore() {
+  openSubmenu.value = !openSubmenu.value;
+}
+function closeSubmenu() {
+  openSubmenu.value = false;
+}
+
+function doLogout() {
+  router.post(route('logout'));
+}
+</script>
+
+<template>
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="34" height="34">
+          <rect width="64" height="64" rx="16" fill="#132743"/>
+          <path d="M32 11 L15 53" stroke="#d9b25e" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M32 11 L49 53" stroke="#d9b25e" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M21 35 L30 40 L21 45" stroke="#f4f6fa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      AlvoFlow
+    </div>
+    <div class="spacer"></div>
+    <button class="icon-btn" title="Terminar sessão" @click="doLogout" v-html="ICONS.logout" style="font-size:0;"></button>
+  </div>
+
+  <main class="view-wrap">
+    <slot />
+  </main>
+
+  <div id="bottomnav">
+    <div id="submenu-host">
+      <div v-if="openSubmenu" class="submenu show" style="right:0; left:0; margin:auto; width:240px; position:absolute; bottom:64px;">
+        <Link :href="route('sobre')" @click="closeSubmenu"><span v-html="ICONS.info"></span><span>Sobre o Sistema</span></Link>
+        <Link :href="route('perfil')" @click="closeSubmenu"><span v-html="ICONS.user"></span><span>Configurações de Perfil</span></Link>
+        <div style="border-top:1px solid var(--border); margin:6px 0;"></div>
+        <div style="font-size:11px; color:var(--text-muted); padding:4px 12px 6px;">TEMA</div>
+        <div class="theme-row" style="padding:0 6px 6px;">
+          <button :class="{ on: theme === 'light' }" @click="applyTheme('light')"><span v-html="ICONS.sun"></span><span>Claro</span></button>
+          <button :class="{ on: theme === 'dark' }" @click="applyTheme('dark')"><span v-html="ICONS.moon"></span><span>Escuro</span></button>
+          <button :class="{ on: theme === 'system' }" @click="applyTheme('system')"><span v-html="ICONS.laptop"></span><span>Sistema</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <Link
+        v-for="item in NAV_ITEMS"
+        :key="item.key"
+        :href="route(item.route)"
+        :class="{ active: currentRouteName === item.route }"
+        :data-label="item.label"
+        @click="closeSubmenu"
+      >
+        <span class="nav-icon" v-html="ICONS[item.icon]"></span>
+      </Link>
+      <button :class="{ active: openSubmenu }" data-label="Mais" @click="toggleMore">
+        <span class="nav-icon" v-html="ICONS.more"></span>
+      </button>
+    </div>
+  </div>
+
+  <PedidoDetailModal />
+  <PedidoEditModal />
+</template>
