@@ -11,6 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Render (e outros PaaS) terminam o TLS no proxy e repassam por HTTP puro ao
+        // container — confiar em qualquer proxy via X-Forwarded-* evita que o Laravel
+        // gere URLs de assets como http:// (causa de "mixed content" no navegador).
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
