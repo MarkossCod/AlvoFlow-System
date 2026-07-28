@@ -23,3 +23,7 @@ createInertiaApp({
 router.on('finish', () => {
     document.documentElement.setAttribute('data-theme', localStorage.getItem('alvoflow-theme') || 'light');
 });
+
+// Transição fluida entre páginas: fade sutil durante a navegação Inertia.
+router.on('start', () => document.getElementById('app')?.classList.add('is-navigating'));
+router.on('finish', () => document.getElementById('app')?.classList.remove('is-navigating'));

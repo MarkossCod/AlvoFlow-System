@@ -136,9 +136,26 @@ a{color:inherit;}
 .terms-check a{color:var(--accent); font-weight:600; text-decoration:none;}
 .terms-check a:hover{text-decoration:underline;}
 
+/* Em ecrãs mais baixos (zoom 100% em laptops etc.) o card comprime o espaçamento
+   vertical em vez de depender do scroll interno — visual equivalente a ver a 90%. */
+@media (max-height:760px){
+  .auth-screen{padding:20px 24px;}
+  .auth-card{max-height:calc(100vh - 32px); padding:22px 26px 20px;}
+  .auth-brand{margin-bottom:12px;}
+  .auth-view p.sub{margin-bottom:10px;}
+  .form-section-label{margin-bottom:5px;}
+  .field{margin-bottom:9px;}
+  .field-divider{margin:2px 0 10px;}
+  .pass-hints{margin-top:5px;}
+  .terms-check{margin:8px 0 10px; padding:8px;}
+  .auth-foot{margin-top:12px;}
+}
+
 /* ============ APP SHELL ============ */
-#app{animation:app-in .5s var(--ease);}
+#app{animation:app-in .5s var(--ease); transition:opacity .22s var(--ease), transform .22s var(--ease);}
 @keyframes app-in{from{opacity:0; transform:translateY(14px) scale(.99);}to{opacity:1; transform:translateY(0) scale(1);}}
+/* Transição fluida entre páginas Inertia (fade + leve deslocamento durante a navegação). */
+#app.is-navigating{opacity:.4; transform:translateY(6px);}
 .topbar{
   position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:14px; padding:14px 22px;
   background:color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter:blur(14px);
