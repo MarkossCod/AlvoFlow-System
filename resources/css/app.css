@@ -116,10 +116,12 @@ a{color:inherit;}
 .input-wrap{position:relative; display:flex; align-items:center;}
 .input-wrap .ic{position:absolute; left:13px; font-size:14px; opacity:.55; pointer-events:none; display:flex;}
 .input-wrap .ic svg{width:16px; height:16px;}
-.input-wrap input{padding-left:38px !important;}
+.input-wrap input{padding-left:38px !important; padding-right:36px !important;}
 .input-wrap .eye-btn{
-  position:absolute; right:6px; background:none; border:none; cursor:pointer; font-size:14px; opacity:.55; padding:8px; border-radius:8px; transition:.2s;
+  position:absolute; right:4px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);
+  background:none; border:none; cursor:pointer; opacity:.65; padding:8px; border-radius:8px; transition:.2s;
 }
+.input-wrap .eye-btn svg{width:16px; height:16px;}
 .input-wrap .eye-btn:hover{opacity:1; background:var(--border);}
 .pass-hints{display:flex; gap:6px; flex-wrap:wrap; margin-top:7px;}
 .pass-hints span{font-size:10px; font-weight:600; padding:4px 9px; border-radius:100px; background:var(--surface-2); color:var(--text-muted); transition:.25s var(--ease); border:1px solid transparent;}

@@ -1,6 +1,6 @@
 <script setup>
 import { route } from 'ziggy-js';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import { ICONS } from '../../icons';
 
@@ -11,6 +11,9 @@ const form = useForm({
     password_confirmation: '',
     terms: false,
 });
+
+const showPassword = ref(false);
+const showPasswordConfirmation = ref(false);
 
 const strength = computed(() => Math.min(form.password.length / 12, 1));
 const strengthColor = computed(() => (strength.value < 0.4 ? 'var(--danger)' : strength.value < 0.75 ? 'var(--warn)' : 'var(--success)'));
@@ -71,7 +74,8 @@ function submit() {
                         <label>Palavra-passe</label>
                         <div class="input-wrap">
                             <span class="ic" v-html="ICONS.lock"></span>
-                            <input type="password" v-model="form.password" placeholder="Mínimo 8 caracteres" />
+                            <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="Mínimo 8 caracteres" />
+                            <button type="button" class="eye-btn" tabindex="-1" @click="showPassword = !showPassword" v-html="showPassword ? ICONS.eyeOff : ICONS.eye"></button>
                         </div>
                         <div class="strength"><span :style="{ width: (strength * 100) + '%', background: strengthColor }"></span></div>
                         <div class="pass-hints">
@@ -83,7 +87,11 @@ function submit() {
                     </div>
                     <div class="field">
                         <label>Confirmar palavra-passe</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.lock"></span><input type="password" v-model="form.password_confirmation" placeholder="Repita a palavra-passe" /></div>
+                        <div class="input-wrap">
+                            <span class="ic" v-html="ICONS.lock"></span>
+                            <input :type="showPasswordConfirmation ? 'text' : 'password'" v-model="form.password_confirmation" placeholder="Repita a palavra-passe" />
+                            <button type="button" class="eye-btn" tabindex="-1" @click="showPasswordConfirmation = !showPasswordConfirmation" v-html="showPasswordConfirmation ? ICONS.eyeOff : ICONS.eye"></button>
+                        </div>
                     </div>
 
                     <label class="terms-check">

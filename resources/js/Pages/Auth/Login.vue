@@ -1,5 +1,6 @@
 <script setup>
 import { route } from 'ziggy-js';
+import { ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import { ICONS } from '../../icons';
 
@@ -8,6 +9,8 @@ const form = useForm({
     password: '',
     remember: false,
 });
+
+const showPassword = ref(false);
 
 function submit() {
     form.post(route('login'), {
@@ -50,7 +53,11 @@ function submit() {
                     </div>
                     <div class="field" :class="{ err: form.errors.password }">
                         <label>Palavra-passe</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.lock"></span><input type="password" v-model="form.password" placeholder="••••••••" /></div>
+                        <div class="input-wrap">
+                            <span class="ic" v-html="ICONS.lock"></span>
+                            <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="••••••••" />
+                            <button type="button" class="eye-btn" tabindex="-1" @click="showPassword = !showPassword" v-html="showPassword ? ICONS.eyeOff : ICONS.eye"></button>
+                        </div>
                         <div class="msg">{{ form.errors.password }}</div>
                     </div>
                     <div class="auth-switch">
