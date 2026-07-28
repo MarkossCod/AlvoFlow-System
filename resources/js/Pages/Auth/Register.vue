@@ -5,9 +5,7 @@ import { useForm, Link } from '@inertiajs/vue3';
 import { ICONS } from '../../icons';
 
 const form = useForm({
-    name: '',
     username: '',
-    email: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -31,7 +29,7 @@ function submit() {
     form.post(route('register'), {
         onSuccess: () => {
             window.dispatchEvent(new CustomEvent('alvoflow:enter', {
-                detail: { title: 'Bem-vindo, ' + (form.name.split(' ')[0] || '') + '!' },
+                detail: { title: 'Bem-vindo, ' + form.username + '!' },
             }));
         },
     });
@@ -58,24 +56,16 @@ function submit() {
                 <p class="sub">Registe-se em poucos segundos para começar a gerir pedidos.</p>
 
                 <form @submit.prevent="submit">
-                    <div class="field" :class="{ err: form.errors.name }">
-                        <label>Nome completo</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.name" placeholder="O seu nome" /></div>
-                        <div class="msg">{{ form.errors.name }}</div>
-                    </div>
+                    <div class="form-section-label">Conta</div>
                     <div class="field" :class="{ err: form.errors.username }">
                         <label>Nome de utilizador</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.username" placeholder="Escolha um nome de utilizador" /></div>
+                        <div class="input-wrap"><span class="ic" v-html="ICONS.user"></span><input type="text" v-model="form.username" placeholder="Escolha um nome de utilizador" autofocus /></div>
                         <div class="msg">{{ form.errors.username }}</div>
-                    </div>
-                    <div class="field" :class="{ err: form.errors.email }">
-                        <label>Email</label>
-                        <div class="input-wrap"><span class="ic" v-html="ICONS.mail"></span><input type="email" v-model="form.email" placeholder="ex: nome@email.com" /></div>
-                        <div class="msg">{{ form.errors.email }}</div>
                     </div>
 
                     <div class="field-divider"></div>
 
+                    <div class="form-section-label">Segurança</div>
                     <div class="field" :class="{ err: form.errors.password }">
                         <label>Palavra-passe</label>
                         <div class="input-wrap">

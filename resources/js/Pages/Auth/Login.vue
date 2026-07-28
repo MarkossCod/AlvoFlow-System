@@ -68,10 +68,7 @@ function submit() {
                     </div>
                     <button type="submit" class="btn btn-primary" :disabled="form.processing">Entrar</button>
                 </form>
-                <p class="auth-foot">
-                    Ainda não tem conta? <Link :href="route('register')">Criar conta</Link><br>
-                    <Link :href="route('username.request')" style="font-size:12.5px;">Esqueceu o nome de utilizador?</Link>
-                </p>
+                <p class="auth-foot">Ainda não tem conta? <Link :href="route('register')">Criar conta</Link></p>
             </div>
         </div>
     </div>
