@@ -7,7 +7,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\UsernameRecoveryController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
+// throttle:6,1 -> trava tentativas de login/registo/recuperação a 6 por minuto por IP,
+// evitando força bruta (antes não havia nenhum limite nestas rotas).
+Route::middleware(['guest', 'throttle:6,1'])->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 

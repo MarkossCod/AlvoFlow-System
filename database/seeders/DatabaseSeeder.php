@@ -11,10 +11,14 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'publicador@congregacao.pt'],
-            ['name' => 'Publicador', 'username' => 'publicador', 'password' => bcrypt('password')]
-        );
+        // Conta de teste com password previsível — só faz sentido fora de produção
+        // (docker-entrypoint.sh não corre db:seed no deploy, mas evita a tentação de o fazer).
+        if (! app()->isProduction()) {
+            User::firstOrCreate(
+                ['email' => 'publicador@congregacao.pt'],
+                ['name' => 'Publicador', 'username' => 'publicador', 'password' => bcrypt('password')]
+            );
+        }
 
         $nomes = ['Ana Ferreira', 'João Silva', 'Maria Costa', 'Pedro Santos', 'Rita Almeida', 'Carlos Pinto'];
         $publicacoes = ['A Sentinela', 'Despertai!', 'Bíblia — Tradução do Novo Mundo', 'Ame as Pessoas', 'Ensina', 'Cartão de Visita'];

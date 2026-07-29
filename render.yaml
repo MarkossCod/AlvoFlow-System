@@ -38,6 +38,9 @@ services:
         sync: false
       - key: SESSION_DRIVER
         value: database
+      # Sem isto o cookie de sessão ia sem a flag Secure mesmo em produção (https).
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
       - key: CACHE_STORE
         value: database
       - key: QUEUE_CONNECTION

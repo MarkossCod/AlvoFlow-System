@@ -95,7 +95,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', fecharSeForaClic
                 <button
                     v-for="(dia, i) in celulas" :key="i" type="button"
                     class="datepicker-day"
-                    :class="{ empty: !dia, selected: isSelecionado(dia), today: isHoje(dia) }"
+                    :class="{ pad: !dia, selected: isSelecionado(dia), today: isHoje(dia) }"
                     :disabled="!dia"
                     @click="dia && escolher(dia)"
                 >{{ dia }}</button>
