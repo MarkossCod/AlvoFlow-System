@@ -27,3 +27,13 @@ router.on('finish', () => {
 // Transição fluida entre páginas: fade sutil durante a navegação Inertia.
 router.on('start', () => document.getElementById('app')?.classList.add('is-navigating'));
 router.on('finish', () => document.getElementById('app')?.classList.remove('is-navigating'));
+
+// Sessão expirada (419) ou erro de servidor: em vez do popup padrão do Inertia com a
+// página de erro do Laravel dentro de um iframe, manda para o login de forma limpa.
+router.on('invalid', (event) => {
+    const status = event.detail.response?.status;
+    if (status === 419 || status === 401) {
+        event.preventDefault();
+        window.location.href = '/login';
+    }
+});
