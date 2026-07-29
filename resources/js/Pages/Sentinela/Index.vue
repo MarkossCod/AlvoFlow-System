@@ -2,6 +2,7 @@
 import { route } from 'ziggy-js';
 import { useForm, router } from '@inertiajs/vue3';
 import AppLayout from '../../Layouts/AppLayout.vue';
+import { confirmDialog } from '../../confirmDialog';
 
 defineOptions({ layout: AppLayout });
 
@@ -47,8 +48,9 @@ function alternarStatus(s) {
     router.patch(route('sentinela.update', s.id), { status: novo }, { preserveScroll: true, preserveState: true });
 }
 
-function excluir(s) {
-    if (!confirm('Excluir este registo de Sentinela?')) return;
+async function excluir(s) {
+    const ok = await confirmDialog('Excluir registo de Sentinela?', `O pedido de "${s.publicador}" será removido permanentemente.`);
+    if (!ok) return;
     router.delete(route('sentinela.destroy', s.id), { preserveScroll: true });
 }
 </script>

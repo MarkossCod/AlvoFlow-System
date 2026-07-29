@@ -16,10 +16,13 @@ function submit() {
     form.post(route('login'), {
         preserveScroll: true,
         // Mostra a animação já ao submeter (tecla Enter ou clique no botão fazem o mesmo
-        // pedido) para ela cobrir o ecrã antes da troca de página do Inertia — sem isto,
-        // dava para ver o painel a piscar por baixo antes da animação aparecer.
+        // pedido), cobrindo o ecrã antes da troca de página do Inertia — o anel roda enquanto
+        // se espera a resposta. Só quando o login é mesmo confirmado é que o "✓" aparece.
         onStart: () => {
-            window.dispatchEvent(new CustomEvent('alvoflow:enter', { detail: { title: 'Acesso confirmado' } }));
+            window.dispatchEvent(new CustomEvent('alvoflow:enter', { detail: { title: 'A validar acesso...' } }));
+        },
+        onSuccess: () => {
+            window.dispatchEvent(new CustomEvent('alvoflow:enter:confirm', { detail: { title: 'Acesso confirmado' } }));
         },
         onError: () => {
             window.dispatchEvent(new CustomEvent('alvoflow:enter:cancel'));

@@ -92,6 +92,52 @@ a{color:inherit;}
 .field input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(15,108,124,.15);}
 .field.err input{border-color:var(--danger);}
 .field .msg{font-size:11.5px; color:var(--danger); margin-top:4px; min-height:14px;}
+
+/* ============ DATE PICKER ============ */
+.datepicker{position:relative;}
+.datepicker-input{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:11px 14px; border-radius:var(--radius-sm); border:1.5px solid var(--border);
+  background:var(--surface-2); color:var(--text); font-size:14.5px; font-family:inherit; text-align:left;
+  cursor:pointer; transition:border .2s, box-shadow .2s;
+}
+.datepicker-input:hover, .datepicker-input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(15,108,124,.15); outline:none;}
+.datepicker-input svg{width:17px; height:17px; color:var(--text-muted); flex-shrink:0;}
+.datepicker-pop{
+  position:absolute; top:calc(100% + 8px); left:0; z-index:80; width:272px; padding:14px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow-lg);
+  animation:datepickerPop .18s var(--ease);
+}
+@keyframes datepickerPop{from{opacity:0; transform:translateY(-6px) scale(.97);} to{opacity:1; transform:translateY(0) scale(1);}}
+.datepicker-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; font-size:13.5px; font-weight:700;}
+.datepicker-head button{width:28px; height:28px; border:none; border-radius:8px; background:var(--surface-2); color:var(--text); cursor:pointer; font-size:15px; transition:background .2s var(--ease);}
+.datepicker-head button:hover{background:var(--border);}
+.datepicker-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px;}
+.datepicker-dow{margin-bottom:4px;}
+.datepicker-dow span{font-size:10.5px; font-weight:700; color:var(--text-muted); text-align:center; text-transform:uppercase;}
+.datepicker-day{
+  aspect-ratio:1; border:none; border-radius:9px; background:transparent; color:var(--text); font-size:12.5px; cursor:pointer;
+  transition:background .15s var(--ease), color .15s var(--ease);
+}
+.datepicker-day:not(.empty):hover{background:var(--border);}
+.datepicker-day.today{color:var(--accent); font-weight:700;}
+.datepicker-day.selected{background:var(--accent); color:#fff; font-weight:700;}
+.datepicker-day.empty{cursor:default; visibility:hidden;}
+
+/* ============ CONFIRM DIALOG (substitui o confirm() nativo do browser) ============ */
+.confirm-overlay{
+  position:fixed; inset:0; z-index:900; background:rgba(10,16,28,.5); backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center; padding:20px; animation:confirmFade .18s var(--ease);
+}
+@keyframes confirmFade{from{opacity:0;} to{opacity:1;}}
+.confirm-box{background:var(--surface); border-radius:18px; padding:24px; max-width:360px; width:100%; box-shadow:var(--shadow-lg); animation:confirmPop .22s var(--ease);}
+@keyframes confirmPop{from{opacity:0; transform:scale(.94) translateY(6px);} to{opacity:1; transform:scale(1) translateY(0);}}
+.confirm-box h3{margin:0 0 8px; font-size:16px;}
+.confirm-box p{margin:0 0 20px; font-size:13.5px; color:var(--text-muted); line-height:1.6;}
+.confirm-actions{display:flex; gap:10px; justify-content:flex-end;}
+.confirm-actions .btn{width:auto;}
+.confirm-danger{background:linear-gradient(135deg,var(--danger),#8f2c20); color:#fff; box-shadow:0 8px 20px rgba(192,57,43,.3);}
+
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; border:none; border-radius:var(--radius-sm);
   font-weight:600; font-size:14.5px; padding:12px 18px; transition:transform .15s var(--ease), box-shadow .2s, opacity .2s;
@@ -152,11 +198,11 @@ a{color:inherit;}
 }
 
 /* ============ APP SHELL ============ */
-#app{animation:app-in .5s var(--ease); transition:opacity .08s var(--ease);}
+#app{animation:app-in .5s var(--ease); transition:opacity .18s var(--ease);}
 @keyframes app-in{from{opacity:0; transform:translateY(14px) scale(.99);}to{opacity:1; transform:translateY(0) scale(1);}}
-/* Transição entre páginas Inertia — só uma leve piscada de opacidade, quase instantânea
-   (a maioria dos links já vem pré-carregada via "prefetch" no menu). */
-#app.is-navigating{opacity:.9;}
+/* Transição entre páginas Inertia — rápida (a maioria dos links já vem pré-carregada via
+   "prefetch" no menu) mas com duração suficiente pra parecer suave, não um corte seco. */
+#app.is-navigating{opacity:.85;}
 .topbar{
   position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:14px;
   padding:calc(14px + env(safe-area-inset-top, 0px)) 22px 14px;
@@ -175,9 +221,9 @@ a{color:inherit;}
 .icon-btn .dot{position:absolute; top:6px; right:6px; width:7px; height:7px; border-radius:50%; background:var(--danger); border:2px solid var(--surface);}
 
 main.view-wrap{max-width:1180px; margin:0 auto; padding:22px 20px 130px;}
-.view{display:none; animation:viewIn .2s var(--ease);}
+.view{display:none; animation:viewIn .28s var(--ease);}
 .view.active{display:block;}
-@keyframes viewIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+@keyframes viewIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
 
 .page-head{display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:20px;}
 .page-head h1{margin:0; font-size:24px; font-weight:800;}
@@ -374,6 +420,10 @@ html[data-theme="dark"] .sheet-table thead th{background:var(--navy-900);}
 .nav-bar :is(button, a).active{background:var(--accent); color:#fff; transform:translateY(-3px); box-shadow:0 8px 18px rgba(15,108,124,.35);}
 .nav-bar :is(button, a):hover:not(.active){background:var(--surface-2); color:var(--text); transform:translateY(-5px) scale(1.08); box-shadow:var(--shadow-md);}
 .nav-bar :is(button, a):active{transform:translateY(-1px) scale(.94);}
+/* Sem isto, tocar no separador já ativo "descia" de -3px para -1px por um instante (o
+   :active tinha a mesma especificidade do .active e ganhava por vir depois) — agora o
+   separador ativo mantém-se elevado ao ser premido, só com um leve efeito de aperto. */
+.nav-bar :is(button, a).active:active{transform:translateY(-2px) scale(.95);}
 .nav-bar :is(button, a):hover span.nav-icon{transform:scale(1.15) rotate(-4deg);}
 .nav-bar :is(button, a) span.nav-icon{display:inline-block; transition:transform .25s var(--ease);}
 .nav-icon svg{width:22px; height:22px; display:block;}
@@ -540,7 +590,11 @@ select{width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5
 .mockup-gallery{display:flex; gap:32px; flex-wrap:wrap; align-items:flex-end; justify-content:center; padding:14px 0 4px;}
 /* drop-shadow (não box-shadow) para a sombra acompanhar o ecrã + a base como um objeto só,
    dando profundidade — sem isto o mockup ficava a parecer um retângulo cortado a direito. */
-.laptop-mockup{width:min(300px, 100%); filter:drop-shadow(0 16px 16px rgba(15,25,40,.18));}
+/* "width:300px; max-width:100%" (não "width:min(300px,100%)"): o wrapper à volta deste
+   mockup não tem largura própria (é só um filho de flex), por isso um valor min() sem uma
+   largura de referência fixa estava a calcular uma "used width" errada e a encolher tudo —
+   com "width" a dar uma medida real, o max-width só entra em ação em ecrãs mesmo estreitos. */
+.laptop-mockup{width:300px; max-width:100%; filter:drop-shadow(0 16px 16px rgba(15,25,40,.18));}
 .laptop-mockup .screen{
   background:linear-gradient(160deg,var(--navy-900),var(--navy-800)); border-radius:12px 12px 0 0; padding:16px; height:172px;
   box-shadow:inset 0 0 0 6px var(--navy-950), var(--shadow-lg);
@@ -570,11 +624,15 @@ select{width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5
   .mockup-card{padding:18px;}
   /* Só no telemóvel: entrada suave dos cartões + feedback de toque (o hover não existe aqui). */
   .card{animation:mobileCardIn .3s var(--ease) backwards;}
-  .btn:active, .icon-btn:active, .nav-bar :is(button,a):active{transform:scale(.93);}
+  .btn:active, .icon-btn:active{transform:scale(.93);}
 }
 @keyframes mobileCardIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
 
 /* ============ ENTER TRANSITION ============ */
+/* Duas fases: ".show" cobre o ecrã e o anel roda sem tempo definido enquanto se espera a
+   resposta do servidor (a instância grátis do Render pode demorar até ~50s a "acordar");
+   ".confirmed" só é adicionada quando o login/registo é mesmo confirmado, e é isso que
+   pára o anel, mostra o "✓" e o texto — nunca antes disso, por mais rápida que a rede seja. */
 #enter-transition{
   position:fixed; inset:0; z-index:950; display:flex; align-items:center; justify-content:center;
   background:linear-gradient(160deg, var(--navy-950), var(--navy-800) 70%);
@@ -583,20 +641,21 @@ select{width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5
 #enter-transition.show{opacity:1; visibility:visible;}
 .enter-inner{text-align:center; color:#fff;}
 .enter-ring{width:92px; height:92px; margin:0 auto 24px; position:relative; display:flex; align-items:center; justify-content:center;}
-.enter-ring svg{width:92px; height:92px; transform:rotate(-90deg); position:absolute; inset:0;}
+.enter-ring svg{width:92px; height:92px; position:absolute; inset:0;}
 .enter-ring circle{fill:none; stroke-width:5;}
 .enter-ring .bg{stroke:rgba(255,255,255,.14);}
-.enter-ring .fg{stroke:var(--gold-500); stroke-linecap:round; stroke-dasharray:251.2; stroke-dashoffset:251.2;}
-#enter-transition.show .enter-ring .fg{animation:ringFill 1.3s var(--ease) forwards;}
-@keyframes ringFill{to{stroke-dashoffset:0;}}
+.enter-ring .fg{stroke:var(--gold-500); stroke-linecap:round; stroke-dasharray:70 251.2;}
+#enter-transition.show .enter-ring svg{animation:ringSpin .9s linear infinite;}
+@keyframes ringSpin{to{transform:rotate(360deg);}}
+#enter-transition.confirmed .enter-ring svg{animation:none; transform:rotate(-90deg);}
+#enter-transition.confirmed .enter-ring .fg{stroke-dasharray:251.2; transition:stroke-dasharray .3s var(--ease);}
 .enter-check{font-size:32px; opacity:0; transform:scale(.4);}
-#enter-transition.show .enter-check{animation:checkPop .45s var(--ease) 1.05s forwards;}
+#enter-transition.confirmed .enter-check{animation:checkPop .45s var(--ease) .2s forwards;}
 @keyframes checkPop{to{opacity:1; transform:scale(1);}}
-.enter-inner h2{margin:0 0 6px; font-size:21px; font-weight:800; opacity:0; transform:translateY(8px);}
-#enter-transition.show .enter-inner h2{animation:riseIn .5s var(--ease) .5s forwards;}
-.enter-inner p{margin:0; color:rgba(255,255,255,.62); font-size:13.5px; opacity:0; transform:translateY(8px);}
-#enter-transition.show .enter-inner p{animation:riseIn .5s var(--ease) .7s forwards;}
-@keyframes riseIn{to{opacity:1; transform:translateY(0);}}
+.enter-inner h2{margin:0 0 6px; font-size:21px; font-weight:800; opacity:.7;}
+#enter-transition.confirmed .enter-inner h2{animation:riseIn .4s var(--ease) forwards;}
+.enter-inner p{margin:0; color:rgba(255,255,255,.62); font-size:13.5px;}
+@keyframes riseIn{from{opacity:.7; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
 
 
 /* ============ Ajustes para versão Laravel/Inertia ============ */

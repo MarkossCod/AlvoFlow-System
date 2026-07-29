@@ -3,6 +3,7 @@ import { route } from 'ziggy-js';
 import { computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { detailStore, fecharDetail, editarPedido } from '../detailStore';
+import { confirmDialog } from '../confirmDialog';
 
 const ESTADOS = ['Aberto', 'Em Andamento', 'Concluído'];
 
@@ -25,8 +26,9 @@ function mudarEstado() {
     });
 }
 
-function excluir() {
-    if (!confirm('Tem a certeza que deseja excluir este pedido?')) return;
+async function excluir() {
+    const ok = await confirmDialog('Excluir pedido?', `O pedido de "${pedido.value.publicador}" será removido permanentemente.`);
+    if (!ok) return;
     router.delete(route('pedidos.destroy', pedido.value.id), {
         preserveScroll: true,
         onSuccess: fecharDetail,

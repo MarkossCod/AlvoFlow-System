@@ -47,18 +47,28 @@
         </div>
     </div>
     <script>
-        // Animação de entrada (login/registo), disparada pelas páginas Vue via CustomEvent.
-        // Mostrada já no início do pedido (não só quando a resposta chega) para não haver
-        // o "flash" da página seguinte antes da animação aparecer; se o login/registo falhar,
-        // "alvoflow:enter:cancel" esconde tudo na hora para mostrar os erros do formulário.
+        // Animação de entrada (login/registo), em duas fases:
+        // 1) "alvoflow:enter" — disparado já ao submeter o formulário. Cobre o ecrã e o anel
+        //    fica a rodar indefinidamente (a instância grátis do Render pode demorar até uns
+        //    50s a "acordar" — um tempo fixo aqui ia esconder tudo antes da resposta chegar).
+        // 2) "alvoflow:enter:confirm" — só disparado quando o servidor confirma mesmo o
+        //    login/registo: para o anel, mostra o "✓" e o título final, e só aí agenda o
+        //    desaparecimento (a página de destino já trocou por baixo, sem se ver).
+        // Se o login/registo falhar, "alvoflow:enter:cancel" esconde tudo na hora.
         window.addEventListener('alvoflow:enter', function (e) {
             var el = document.getElementById('enter-transition');
-            document.getElementById('enter-title').textContent = (e.detail && e.detail.title) || 'Acesso confirmado';
+            el.classList.remove('confirmed');
+            document.getElementById('enter-title').textContent = (e.detail && e.detail.title) || 'A validar acesso...';
             el.classList.add('show');
-            setTimeout(function () { el.classList.remove('show'); }, 1450);
+        });
+        window.addEventListener('alvoflow:enter:confirm', function (e) {
+            var el = document.getElementById('enter-transition');
+            document.getElementById('enter-title').textContent = (e.detail && e.detail.title) || 'Acesso confirmado';
+            el.classList.add('confirmed');
+            setTimeout(function () { el.classList.remove('show', 'confirmed'); }, 1200);
         });
         window.addEventListener('alvoflow:enter:cancel', function () {
-            document.getElementById('enter-transition').classList.remove('show');
+            document.getElementById('enter-transition').classList.remove('show', 'confirmed');
         });
 
         // Splash inicial: garante uns instantes de animação da logo antes de mostrar

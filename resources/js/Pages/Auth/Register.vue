@@ -27,10 +27,14 @@ function submit() {
         return;
     }
     form.post(route('register'), {
-        // Mesma lógica do Login: mostra já ao submeter para não haver "flash" da página
-        // seguinte antes da animação, e cancela na hora se o registo falhar (username em uso, etc.).
+        // Mesma lógica do Login: mostra já ao submeter (anel a rodar enquanto se espera),
+        // só confirma (com o "✓" e o nome) quando o registo é mesmo aceite pelo servidor,
+        // e cancela na hora se falhar (username em uso, etc.).
         onStart: () => {
-            window.dispatchEvent(new CustomEvent('alvoflow:enter', {
+            window.dispatchEvent(new CustomEvent('alvoflow:enter', { detail: { title: 'A criar a sua conta...' } }));
+        },
+        onSuccess: () => {
+            window.dispatchEvent(new CustomEvent('alvoflow:enter:confirm', {
                 detail: { title: 'Bem-vindo, ' + form.username + '!' },
             }));
         },

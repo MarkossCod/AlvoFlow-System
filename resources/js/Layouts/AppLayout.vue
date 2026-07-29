@@ -3,13 +3,38 @@
 // e o submenu "Mais" (Utilizadores/Sobre/Perfil/tema). "isMarkin" (partilhado via Inertia em
 // HandleInertiaRequests) decide se o link de administração de utilizadores aparece.
 import { route } from 'ziggy-js';
-import { ref, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import { ICONS } from '../icons';
 import PedidoDetailModal from '../Components/PedidoDetailModal.vue';
 import PedidoEditModal from '../Components/PedidoEditModal.vue';
+import ConfirmDialogHost from '../Components/ConfirmDialogHost.vue';
 
 const page = usePage();
+
+// Toasts — o backend já envia "flash.success"/"flash.error" em cada resposta (ex: ao criar
+// um pedido); antes disso não havia nada a lê-los, por isso ações como "Criar Pedido" pareciam
+// não fazer nada (o pedido era criado, só não se via confirmação nenhuma).
+const toasts = reactive([]);
+let nextToastId = 0;
+
+function pushToast(type, message) {
+  const id = ++nextToastId;
+  toasts.push({ id, type, message, out: false });
+  setTimeout(() => removeToast(id), 3200);
+}
+function removeToast(id) {
+  const toast = toasts.find((t) => t.id === id);
+  if (!toast) return;
+  toast.out = true;
+  setTimeout(() => {
+    const idx = toasts.findIndex((t) => t.id === id);
+    if (idx !== -1) toasts.splice(idx, 1);
+  }, 250);
+}
+
+watch(() => page.props.flash?.success, (msg) => { if (msg) pushToast('success', msg); });
+watch(() => page.props.flash?.error, (msg) => { if (msg) pushToast('danger', msg); });
 
 const NAV_ITEMS = [
   { key: 'home', icon: 'home', label: 'Início', route: 'home' },
@@ -103,4 +128,11 @@ function doLogout() {
 
   <PedidoDetailModal />
   <PedidoEditModal />
+  <ConfirmDialogHost />
+
+  <div id="toasts">
+    <div v-for="t in toasts" :key="t.id" class="toast" :class="[t.type, { out: t.out }]">
+      <span>{{ t.message }}</span>
+    </div>
+  </div>
 </template>

@@ -2,6 +2,7 @@
 import { route } from 'ziggy-js';
 import { useForm } from '@inertiajs/vue3';
 import AppLayout from '../../Layouts/AppLayout.vue';
+import DatePicker from '../../Components/DatePicker.vue';
 
 defineOptions({ layout: AppLayout });
 
@@ -48,7 +49,7 @@ function submit() {
                     </div>
                     <div class="field">
                         <label>Data da Solicitação</label>
-                        <input v-model="form.data" type="date" required />
+                        <DatePicker v-model="form.data" />
                     </div>
                     <div class="field full">
                         <label>Observações (opcional)</label>
