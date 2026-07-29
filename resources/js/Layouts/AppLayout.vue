@@ -9,6 +9,7 @@ import { ICONS } from '../icons';
 import PedidoDetailModal from '../Components/PedidoDetailModal.vue';
 import PedidoEditModal from '../Components/PedidoEditModal.vue';
 import ConfirmDialogHost from '../Components/ConfirmDialogHost.vue';
+import { confirmDialog } from '../confirmDialog';
 
 const page = usePage();
 
@@ -45,7 +46,11 @@ const NAV_ITEMS = [
   { key: 'painel', icon: 'chart', label: 'Painel', route: 'painel' },
 ];
 
-const currentRouteName = computed(() => route().current());
+// route().current() por si só não é reativo (o Ziggy não é "Vue-aware"), por isso o realce
+// do separador ativo ficava sempre preso na primeira página carregada — ao ler "page.url"
+// (que o Inertia atualiza a cada navegação) dentro do computed, forçamos o Vue a recalcular
+// sempre que a rota muda.
+const currentRouteName = computed(() => { void page.url; return route().current(); });
 const openSubmenu = ref(false);
 
 const theme = ref(typeof window !== 'undefined' ? (localStorage.getItem('alvoflow-theme') || 'light') : 'light');
@@ -66,8 +71,9 @@ function closeSubmenu() {
   openSubmenu.value = false;
 }
 
-function doLogout() {
-  if (!confirm('Terminar sessão?')) return;
+async function doLogout() {
+  const ok = await confirmDialog('Terminar sessão?', 'Vai precisar de iniciar sessão novamente para aceder ao AlvoFlow.', { confirmLabel: 'Terminar sessão', danger: false });
+  if (!ok) return;
   router.post(route('logout'));
 }
 </script>

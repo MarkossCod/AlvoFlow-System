@@ -49,7 +49,7 @@ function alternarStatus(s) {
 }
 
 async function excluir(s) {
-    const ok = await confirmDialog('Excluir registo de Sentinela?', `O pedido de "${s.publicador}" será removido permanentemente.`);
+    const ok = await confirmDialog('Excluir registo de Sentinela?', `O pedido de "${s.publicador}" será removido permanentemente.`, { confirmLabel: 'Excluir' });
     if (!ok) return;
     router.delete(route('sentinela.destroy', s.id), { preserveScroll: true });
 }

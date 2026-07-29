@@ -27,7 +27,7 @@ function mudarEstado() {
 }
 
 async function excluir() {
-    const ok = await confirmDialog('Excluir pedido?', `O pedido de "${pedido.value.publicador}" será removido permanentemente.`);
+    const ok = await confirmDialog('Excluir pedido?', `O pedido de "${pedido.value.publicador}" será removido permanentemente.`, { confirmLabel: 'Excluir' });
     if (!ok) return;
     router.delete(route('pedidos.destroy', pedido.value.id), {
         preserveScroll: true,

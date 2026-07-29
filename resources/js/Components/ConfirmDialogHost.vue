@@ -13,7 +13,7 @@ const state = confirmDialogState();
             <p>{{ state.message }}</p>
             <div class="confirm-actions">
                 <button type="button" class="btn btn-outline" @click="resolveConfirmDialog(false)">Cancelar</button>
-                <button type="button" class="btn confirm-danger" @click="resolveConfirmDialog(true)">Excluir</button>
+                <button type="button" class="btn" :class="state.danger ? 'confirm-danger' : 'btn-primary'" @click="resolveConfirmDialog(true)">{{ state.confirmLabel }}</button>
             </div>
         </div>
     </div>

@@ -30,7 +30,10 @@ class PedidoController extends Controller
 
         Pedido::create($data + ['estado' => 'Aberto']);
 
-        return redirect()->route('home')->with('success', 'Pedido criado com sucesso.');
+        // Fica na própria página (o frontend já limpa o formulário via onSuccess) em vez de
+        // saltar para a Home — o redirect anterior levava o utilizador para outra página sem
+        // ele perceber que o pedido tinha sido criado, parecendo que o botão "não funcionava".
+        return back()->with('success', 'Pedido criado com sucesso.');
     }
 
     public function pesquisar(Request $request): Response
