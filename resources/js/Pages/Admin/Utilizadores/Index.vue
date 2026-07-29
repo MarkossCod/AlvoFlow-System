@@ -68,10 +68,12 @@ function excluir(u) {
                                 {{ estaOnline(u.last_seen_at) ? 'Online agora — ' + (u.last_url || '') : 'Última atividade: ' + formatDateHora(u.last_seen_at) }}
                             </span>
                         </div>
-                        <div class="since">Registado em<br>{{ formatDateHora(u.created_at) }}</div>
-                        <div class="user-actions">
-                            <button class="icon-btn" title="Editar" @click="abrirEdicao(u)" v-html="ICONS.edit"></button>
-                            <button class="icon-btn" title="Excluir" @click="excluir(u)" v-html="ICONS.trash" style="color:var(--danger);"></button>
+                        <div class="user-meta">
+                            <div class="since">Registado em<br>{{ formatDateHora(u.created_at) }}</div>
+                            <div class="user-actions">
+                                <button class="icon-btn" title="Editar" @click="abrirEdicao(u)" v-html="ICONS.edit"></button>
+                                <button class="icon-btn" title="Excluir" @click="excluir(u)" v-html="ICONS.trash" style="color:var(--danger);"></button>
+                            </div>
                         </div>
                     </div>
                 </template>

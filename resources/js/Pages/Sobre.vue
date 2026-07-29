@@ -100,5 +100,21 @@ const processo = [
                 </div>
             </div>
         </div>
+
+        <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">Sobre o Desenvolvedor</h1><p>Quem criou o AlvoFlow.</p></div></div>
+        <div class="card sobre-hero">
+            <div class="dev-photo"><img src="/img/markos.jpg" alt="Markos Samuell"></div>
+            <div class="sobre-hero-body">
+                <h2>Markos Samuell</h2>
+                <p class="sobre-version">Criador e Desenvolvedor do AlvoFlow</p>
+                <p class="sobre-desc">
+                    Markos Samuell é o programador por trás do AlvoFlow. A ideia nasceu da vontade de ajudar o Balcão
+                    de Publicações da sua congregação: substituir o controlo manual em papel dos pedidos, da Sentinela
+                    e das entregas por um sistema digital simples, rápido e acessível a toda a equipa. Mais do que um
+                    exercício técnico, o AlvoFlow foi pensado como um projeto pessoal para poupar tempo e tornar mais
+                    organizado o trabalho de quem serve na congregação.
+                </p>
+            </div>
+        </div>
     </section>
 </template>

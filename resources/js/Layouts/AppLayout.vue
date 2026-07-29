@@ -92,7 +92,7 @@ async function doLogout() {
       AlvoFlow
     </div>
     <div class="spacer"></div>
-    <button class="icon-btn" title="Terminar sessão" @click="doLogout" v-html="ICONS.logout" style="font-size:0;"></button>
+    <button class="icon-btn" title="Terminar sessão" @click="doLogout" v-html="ICONS.logout"></button>
   </div>
 
   <main class="view-wrap">
