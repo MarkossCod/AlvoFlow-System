@@ -26,7 +26,7 @@ function initials(name) {
             </div>
 
             <div class="profile-forms">
-                <div class="card" style="padding:24px; margin-bottom:18px;">
+                <div class="card profile-section">
                     <h4 class="section-title">👤 Dados Pessoais</h4>
                     <div class="form-grid">
                         <div class="field"><label>Nome completo</label><input type="text" :value="user.name" /></div>
@@ -36,7 +36,7 @@ function initials(name) {
                     </div>
                 </div>
 
-                <div class="card" style="padding:24px; margin-bottom:18px;">
+                <div class="card profile-section">
                     <h4 class="section-title">🔒 Segurança</h4>
                     <div class="form-grid">
                         <div class="field"><label>Nova palavra-passe</label><input type="password" placeholder="••••••••" /></div>
@@ -44,8 +44,8 @@ function initials(name) {
                     </div>
                 </div>
 
-                <div style="display:flex; justify-content:flex-end; gap:10px;">
-                    <button class="btn btn-primary" style="width:auto;">💾 Guardar alterações</button>
+                <div class="profile-actions">
+                    <button class="btn btn-primary">💾 Guardar alterações</button>
                 </div>
             </div>
         </div>

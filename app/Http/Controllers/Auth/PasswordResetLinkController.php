@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Formulário "esqueci a senha": pede o email e dispara o link de recuperação por email. */
 class PasswordResetLinkController extends Controller
 {
     public function create(): Response

@@ -1,5 +1,8 @@
 <?php
 
+// Rotas da aplicação (tudo atrás de login). Administração de utilizadores fica num
+// sub-grupo à parte, protegido pelo middleware "markin" (ver EnsureIsMarkin).
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PainelController;
@@ -24,10 +27,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sentinela/{sentinela}', [SentinelaController::class, 'destroy'])->name('sentinela.destroy');
 
     Route::get('/painel', PainelController::class)->name('painel');
-    Route::get('/utilizadores', UtilizadorController::class)->name('utilizadores');
 
     Route::get('/perfil', [PageController::class, 'perfil'])->name('perfil');
     Route::get('/sobre', [PageController::class, 'sobre'])->name('sobre');
+
+    // Administração de utilizadores — só a conta "markin" passa pelo middleware (403 para as demais).
+    Route::middleware('markin')->group(function () {
+        Route::get('/utilizadores', [UtilizadorController::class, 'index'])->name('utilizadores');
+        Route::patch('/utilizadores/{user}', [UtilizadorController::class, 'update'])->name('utilizadores.update');
+        Route::delete('/utilizadores/{user}', [UtilizadorController::class, 'destroy'])->name('utilizadores.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';

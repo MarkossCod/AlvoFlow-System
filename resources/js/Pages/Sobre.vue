@@ -68,7 +68,7 @@ const processo = [
         </div>
 
         <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">Acesso em Qualquer Ecrã</h1><p>Interface responsiva, do computador ao telemóvel.</p></div></div>
-        <div class="card" style="padding:32px;">
+        <div class="card mockup-card">
             <div class="mockup-gallery">
                 <div>
                     <div class="laptop-mockup">

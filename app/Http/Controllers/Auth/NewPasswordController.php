@@ -15,6 +15,10 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Passo final de "esqueci a senha": recebe o link com token enviado por email
+ * (broker nativo do Laravel, Illuminate\Support\Facades\Password) e grava a nova senha.
+ */
 class NewPasswordController extends Controller
 {
     public function create(Request $request): Response

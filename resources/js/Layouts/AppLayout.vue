@@ -1,4 +1,7 @@
 <script setup>
+// Layout comum a todas as páginas autenticadas: topo (marca + logout), navegação inferior
+// e o submenu "Mais" (Utilizadores/Sobre/Perfil/tema). "isMarkin" (partilhado via Inertia em
+// HandleInertiaRequests) decide se o link de administração de utilizadores aparece.
 import { route } from 'ziggy-js';
 import { ref, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
@@ -67,7 +70,7 @@ function doLogout() {
   <div id="bottomnav">
     <div id="submenu-host">
       <div v-if="openSubmenu" class="submenu show" style="right:0; left:0; margin:auto; width:240px; position:absolute; bottom:64px;">
-        <Link :href="route('utilizadores')" prefetch @click="closeSubmenu"><span v-html="ICONS.users"></span><span>Utilizadores Registados</span></Link>
+        <Link v-if="page.props.auth.isMarkin" :href="route('utilizadores')" prefetch @click="closeSubmenu"><span v-html="ICONS.users"></span><span>Utilizadores Registados</span></Link>
         <Link :href="route('sobre')" prefetch @click="closeSubmenu"><span v-html="ICONS.info"></span><span>Sobre o Sistema</span></Link>
         <Link :href="route('perfil')" prefetch @click="closeSubmenu"><span v-html="ICONS.user"></span><span>Configurações de Perfil</span></Link>
         <div style="border-top:1px solid var(--border); margin:6px 0;"></div>

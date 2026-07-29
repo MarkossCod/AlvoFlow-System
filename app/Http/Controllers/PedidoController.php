@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** CRUD de pedidos do balcão de publicações: criar, pesquisar, visualizar, atualizar, excluir. */
 class PedidoController extends Controller
 {
     public function criar(): Response

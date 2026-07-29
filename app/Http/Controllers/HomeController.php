@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Página inicial (rota "/"): resumo rápido de pedidos + os mais recentes. */
 class HomeController extends Controller
 {
     public function __invoke(): Response

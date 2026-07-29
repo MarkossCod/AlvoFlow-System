@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Dashboard (rota "/painel"): estatísticas de pedidos, gráficos e monitoramento geral. */
 class PainelController extends Controller
 {
     public function __invoke(): Response

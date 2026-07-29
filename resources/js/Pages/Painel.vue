@@ -1,11 +1,14 @@
 <script setup>
+// Dashboard: estatísticas de pedidos, gráficos (Chart.js), exportação em PDF e um resumo
+// de monitoramento/conta. "isMarkin" controla o link para a administração de utilizadores.
 import { onMounted, computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import Chart from 'chart.js/auto';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Link } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import AppLayout from '../Layouts/AppLayout.vue';
+import StatCard from '../Components/StatCard.vue';
 import { ICONS } from '../icons';
 
 defineOptions({ layout: AppLayout });
@@ -29,6 +32,8 @@ const stats = computed(() => ({
     andamento: props.porEstado['Em Andamento'] || 0,
     concluidos: props.porEstado['Concluído'] || 0,
 }));
+
+const isMarkin = computed(() => usePage().props.auth.isMarkin);
 
 function formatDateBR(iso) {
     const [y, m, d] = (iso || '').split('-');
@@ -98,10 +103,10 @@ function exportarPDF() {
         </div>
 
         <div class="stat-grid">
-            <Link :href="route('pedidos.visualizar')" class="card stat"><div class="top"><div class="ico" v-html="ICONS.folder"></div></div><div class="val">{{ stats.total }}</div><div class="lbl">Total de Pedidos</div></Link>
-            <Link :href="route('pedidos.visualizar', { estado: 'Aberto' })" class="card stat"><div class="top"><div class="ico warn" v-html="ICONS.clock"></div></div><div class="val">{{ stats.abertos }}</div><div class="lbl">Abertos</div></Link>
-            <Link :href="route('pedidos.visualizar', { estado: 'Em Andamento' })" class="card stat"><div class="top"><div class="ico" v-html="ICONS.activity"></div></div><div class="val">{{ stats.andamento }}</div><div class="lbl">Em Andamento</div></Link>
-            <Link :href="route('pedidos.visualizar', { estado: 'Concluído' })" class="card stat"><div class="top"><div class="ico success" v-html="ICONS.shieldCheck"></div></div><div class="val">{{ stats.concluidos }}</div><div class="lbl">Concluídos</div></Link>
+            <StatCard :href="route('pedidos.visualizar')" :icon="ICONS.folder" :value="stats.total" label="Total de Pedidos" />
+            <StatCard :href="route('pedidos.visualizar', { estado: 'Aberto' })" :icon="ICONS.clock" color="warn" :value="stats.abertos" label="Abertos" />
+            <StatCard :href="route('pedidos.visualizar', { estado: 'Em Andamento' })" :icon="ICONS.activity" :value="stats.andamento" label="Em Andamento" />
+            <StatCard :href="route('pedidos.visualizar', { estado: 'Concluído' })" :icon="ICONS.shieldCheck" color="success" :value="stats.concluidos" label="Concluídos" />
         </div>
 
         <div class="chart-grid">
@@ -119,17 +124,17 @@ function exportarPDF() {
 
         <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">Monitoramento do Sistema</h1><p>Indicadores gerais, além dos pedidos.</p></div></div>
         <div class="stat-grid">
-            <Link :href="route('utilizadores')" class="card stat"><div class="top"><div class="ico gold" v-html="ICONS.users"></div></div><div class="val">{{ monitoramento.publicadores }}</div><div class="lbl">Publicadores Registados</div></Link>
-            <Link :href="route('sentinela.index')" class="card stat"><div class="top"><div class="ico warn" v-html="ICONS.book"></div></div><div class="val">{{ monitoramento.sentinelaPendentes }}</div><div class="lbl">Sentinela Pendentes</div></Link>
-            <div class="card stat"><div class="top"><div class="ico success" v-html="ICONS.gauge"></div></div><div class="val">{{ monitoramento.taxaConclusao }}%</div><div class="lbl">Taxa de Conclusão</div></div>
-            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.server"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.ultimaAtualizacao) }}</div><div class="lbl">Última Atividade no Sistema</div></div>
+            <StatCard :href="isMarkin ? route('utilizadores') : ''" :icon="ICONS.users" color="gold" :value="monitoramento.publicadores" label="Publicadores Registados" />
+            <StatCard :href="route('sentinela.index')" :icon="ICONS.book" color="warn" :value="monitoramento.sentinelaPendentes" label="Sentinela Pendentes" />
+            <StatCard :icon="ICONS.gauge" color="success" :value="monitoramento.taxaConclusao + '%'" label="Taxa de Conclusão" />
+            <StatCard :icon="ICONS.server" color="muted" small :value="formatDateHora(monitoramento.ultimaAtualizacao)" label="Última Atividade no Sistema" />
         </div>
 
         <div class="page-head" style="margin:26px 0 14px;"><div><h1 style="font-size:17px;">A sua conta</h1></div></div>
         <div class="stat-grid">
-            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.shieldCheck"></div></div><div class="val" style="font-size:15px;">{{ monitoramento.nomeUtilizador }}</div><div class="lbl">Nome de Utilizador</div></div>
-            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.user"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.contaCriadaEm) }}</div><div class="lbl">Conta Criada Em</div></div>
-            <div class="card stat"><div class="top"><div class="ico muted" v-html="ICONS.activity"></div></div><div class="val" style="font-size:15px;">{{ formatDateHora(monitoramento.sessaoDesde) }}</div><div class="lbl">Última Atividade da Sessão</div></div>
+            <StatCard :icon="ICONS.shieldCheck" color="muted" small :value="monitoramento.nomeUtilizador" label="Nome de Utilizador" />
+            <StatCard :icon="ICONS.user" color="muted" small :value="formatDateHora(monitoramento.contaCriadaEm)" label="Conta Criada Em" />
+            <StatCard :icon="ICONS.activity" color="muted" small :value="formatDateHora(monitoramento.sessaoDesde)" label="Última Atividade da Sessão" />
         </div>
     </section>
 </template>

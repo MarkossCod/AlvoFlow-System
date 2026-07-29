@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Gestão das edições da Sentinela (estudo/artigo) usadas pela congregação. */
 class SentinelaController extends Controller
 {
     public function index(Request $request): Response

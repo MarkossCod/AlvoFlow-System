@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Formulário "esqueci o nome de utilizador": envia o username por email caso exista
+ * uma conta com esse endereço. A mensagem de resposta é sempre igual (existindo ou
+ * não a conta) para não revelar quais emails estão registados.
+ */
 class UsernameRecoveryController extends Controller
 {
     public function create(): Response

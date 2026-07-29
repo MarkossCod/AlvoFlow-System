@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Registo de conta nova: só pede username + password (sem nome nem email). */
 class RegisteredUserController extends Controller
 {
     public function create(): Response

@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\TrackUserActivity::class,
+        ]);
+
+        $middleware->alias([
+            'markin' => \App\Http\Middleware\EnsureIsMarkin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

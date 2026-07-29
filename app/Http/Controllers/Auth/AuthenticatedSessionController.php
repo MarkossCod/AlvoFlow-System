@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/** Login/logout. Autenticação é feita por "username" + password (sem email nem verificação). */
 class AuthenticatedSessionController extends Controller
 {
     public function create(): Response
