@@ -6,11 +6,15 @@ import DatePicker from '../../Components/DatePicker.vue';
 
 defineOptions({ layout: AppLayout });
 
+// O campo NÃO se pode chamar "data": o objeto que o useForm() devolve já tem um método
+// interno chamado data() (usado por dentro para serializar o formulário no submit); um campo
+// com esse nome era silenciosamente substituído por essa função, e o v-model do DatePicker
+// ficava a apontar para uma função em vez de uma string — daí o campo aparecer em branco.
 const form = useForm({
     publicador: '',
     publicacao: '',
     quantidade: 1,
-    data: new Date().toISOString().slice(0, 10),
+    data_solicitacao: new Date().toISOString().slice(0, 10),
     observacoes: '',
 });
 
@@ -49,7 +53,7 @@ function submit() {
                     </div>
                     <div class="field">
                         <label>Data da Solicitação</label>
-                        <DatePicker v-model="form.data" />
+                        <DatePicker v-model="form.data_solicitacao" />
                     </div>
                     <div class="field full">
                         <label>Observações (opcional)</label>

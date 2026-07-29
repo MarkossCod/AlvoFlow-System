@@ -20,15 +20,24 @@ class PedidoController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
+        // "data_solicitacao" (não "data") no pedido do formulário: ver o comentário em
+        // Criar.vue — o frontend não pode usar "data" como nome de campo do useForm().
+        $validado = $request->validate([
             'publicador' => ['required', 'string', 'max:255'],
             'publicacao' => ['required', 'string', 'max:255'],
             'quantidade' => ['required', 'integer', 'min:1'],
-            'data' => ['required', 'date'],
+            'data_solicitacao' => ['required', 'date'],
             'observacoes' => ['nullable', 'string'],
         ]);
 
-        Pedido::create($data + ['estado' => 'Aberto']);
+        Pedido::create([
+            'publicador' => $validado['publicador'],
+            'publicacao' => $validado['publicacao'],
+            'quantidade' => $validado['quantidade'],
+            'data' => $validado['data_solicitacao'],
+            'observacoes' => $validado['observacoes'] ?? null,
+            'estado' => 'Aberto',
+        ]);
 
         // Fica na própria página (o frontend já limpa o formulário via onSuccess) em vez de
         // saltar para a Home — o redirect anterior levava o utilizador para outra página sem
