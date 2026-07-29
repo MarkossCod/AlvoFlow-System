@@ -1,7 +1,7 @@
 <script setup>
 // Dashboard: estatísticas de pedidos, gráficos (Chart.js), exportação em PDF e um resumo
 // de monitoramento/conta. "isMarkin" controla o link para a administração de utilizadores.
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import Chart from 'chart.js/auto';
 import jsPDF from 'jspdf';
@@ -40,30 +40,81 @@ function formatDateBR(iso) {
     return y && m && d ? `${d}/${m}/${y}` : iso || '';
 }
 
-onMounted(() => {
-    const style = getComputedStyle(document.documentElement);
-    const warn = style.getPropertyValue('--warn').trim() || '#b8860b';
-    const accent = style.getPropertyValue('--accent').trim() || '#0f6c7c';
-    const success = style.getPropertyValue('--success').trim() || '#1e8a5f';
+// Tipo de gráfico escolhido em cada cartão — "Adicione a opção de visualizar os dados por
+// diferentes tipos de gráficos". Trocar o tipo destrói e recria o Chart.js (mais simples e
+// robusto do que mutar config.type, que tem opções incompatíveis entre tipos, ex: cutout/scales).
+const donutType = ref('doughnut'); // doughnut | pie | bar
+const diaType = ref('bar'); // bar | line
+let donutChart = null;
+let diaChart = null;
+let cores = null;
 
-    new Chart(document.getElementById('chart-donut'), {
-        type: 'doughnut',
+function getCores() {
+    if (cores) return cores;
+    const style = getComputedStyle(document.documentElement);
+    cores = {
+        warn: style.getPropertyValue('--warn').trim() || '#b8860b',
+        accent: style.getPropertyValue('--accent').trim() || '#0f6c7c',
+        success: style.getPropertyValue('--success').trim() || '#1e8a5f',
+    };
+    return cores;
+}
+
+function renderDonut() {
+    const { warn, accent, success } = getCores();
+    donutChart?.destroy();
+    donutChart = new Chart(document.getElementById('chart-donut'), {
+        type: donutType.value,
         data: {
             labels: ['Abertos', 'Em Andamento', 'Concluídos'],
-            datasets: [{ data: [stats.value.abertos, stats.value.andamento, stats.value.concluidos], backgroundColor: [warn, accent, success], borderWidth: 0 }],
+            datasets: [{
+                data: [stats.value.abertos, stats.value.andamento, stats.value.concluidos],
+                backgroundColor: [warn, accent, success],
+                borderWidth: 0,
+                borderRadius: donutType.value === 'bar' ? 6 : 0,
+            }],
         },
-        options: { plugins: { legend: { position: 'bottom' } }, cutout: '68%' },
+        // maintainAspectRatio:false -> o tamanho vem só do .chart-canvas-wrap (CSS), nunca da
+        // largura do cartão (era isso que inchava o gráfico "rosca" para centenas de pixels).
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: donutType.value !== 'bar', position: 'bottom' } },
+            cutout: donutType.value === 'doughnut' ? '68%' : 0,
+            scales: donutType.value === 'bar' ? { y: { beginAtZero: true } } : undefined,
+        },
     });
+}
 
-    new Chart(document.getElementById('chart-dia'), {
-        type: 'bar',
+function renderDia() {
+    const { accent } = getCores();
+    diaChart?.destroy();
+    diaChart = new Chart(document.getElementById('chart-dia'), {
+        type: diaType.value,
         data: {
             labels: Object.keys(props.porDia).map(formatDateBR),
-            datasets: [{ label: 'Pedidos', data: Object.values(props.porDia), backgroundColor: accent, borderRadius: 6 }],
+            datasets: [{
+                label: 'Pedidos',
+                data: Object.values(props.porDia),
+                backgroundColor: accent,
+                borderColor: accent,
+                borderRadius: diaType.value === 'bar' ? 6 : 0,
+                tension: diaType.value === 'line' ? 0.35 : 0,
+                fill: diaType.value === 'line',
+            }],
         },
-        options: { plugins: { legend: { display: false } } },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } },
+        },
     });
-});
+}
+
+onMounted(() => { renderDonut(); renderDia(); });
+watch(donutType, renderDonut);
+watch(diaType, renderDia);
 
 function exportarPDF() {
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });
@@ -111,14 +162,25 @@ function exportarPDF() {
 
         <div class="chart-grid">
             <div class="card chart-card">
-                <h4>Distribuição por Estado</h4>
-                <p>Proporção de pedidos por situação atual.</p>
-                <canvas id="chart-donut" height="220"></canvas>
+                <div class="chart-card-head">
+                    <div><h4>Distribuição por Estado</h4><p>Proporção de pedidos por situação atual.</p></div>
+                    <div class="chart-type-switch">
+                        <button type="button" :class="{ on: donutType === 'doughnut' }" @click="donutType = 'doughnut'">Rosca</button>
+                        <button type="button" :class="{ on: donutType === 'pie' }" @click="donutType = 'pie'">Pizza</button>
+                        <button type="button" :class="{ on: donutType === 'bar' }" @click="donutType = 'bar'">Barras</button>
+                    </div>
+                </div>
+                <div class="chart-canvas-wrap"><canvas id="chart-donut"></canvas></div>
             </div>
             <div class="card chart-card">
-                <h4>Pedidos nos últimos 14 dias</h4>
-                <p>Volume diário de pedidos criados.</p>
-                <canvas id="chart-dia" height="220"></canvas>
+                <div class="chart-card-head">
+                    <div><h4>Pedidos nos últimos 14 dias</h4><p>Volume diário de pedidos criados.</p></div>
+                    <div class="chart-type-switch">
+                        <button type="button" :class="{ on: diaType === 'bar' }" @click="diaType = 'bar'">Barras</button>
+                        <button type="button" :class="{ on: diaType === 'line' }" @click="diaType = 'line'">Linha</button>
+                    </div>
+                </div>
+                <div class="chart-canvas-wrap"><canvas id="chart-dia"></canvas></div>
             </div>
         </div>
 

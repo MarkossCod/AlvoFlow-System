@@ -59,10 +59,10 @@ async function excluir(s) {
     <section class="view active">
         <div class="page-head">
             <div><h1>Pedidos de Sentinela</h1><p>Lista dinâmica de pedidos da revista A Sentinela por publicador, tamanho e status de entrega.</p></div>
-            <div style="display:flex; gap:22px;">
-                <div class="stat" style="padding:0;"><div class="val" style="font-size:20px;">{{ totais.total }}</div><div class="lbl">Exemplares</div></div>
-                <div class="stat" style="padding:0;"><div class="val" style="font-size:20px; color:var(--success);">{{ totais.entregues }}</div><div class="lbl">Entregues</div></div>
-                <div class="stat" style="padding:0;"><div class="val" style="font-size:20px; color:var(--warn);">{{ totais.pendentes }}</div><div class="lbl">Pendentes</div></div>
+            <div class="head-stats">
+                <div class="head-stat"><div class="val">{{ totais.total }}</div><div class="lbl">Exemplares</div></div>
+                <div class="head-stat"><div class="val" style="color:var(--success);">{{ totais.entregues }}</div><div class="lbl">Entregues</div></div>
+                <div class="head-stat"><div class="val" style="color:var(--warn);">{{ totais.pendentes }}</div><div class="lbl">Pendentes</div></div>
             </div>
         </div>
 
