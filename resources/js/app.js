@@ -37,3 +37,11 @@ router.on('invalid', (event) => {
         window.location.href = '/login';
     }
 });
+
+// PWA: regista o service worker (torna a app instalável e cacheia só os assets estáticos do
+// build — ver public/sw.js). "load" evita atrasar o primeiro render à espera do registo.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+}

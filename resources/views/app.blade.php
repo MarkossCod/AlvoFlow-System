@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title inertia>{{ config('app.name', 'AlvoFlow') }}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22%23132743%22/><path d=%22M32 11 L15 53%22 stroke=%22%23d9b25e%22 stroke-width=%227%22 stroke-linecap=%22round%22 fill=%22none%22/><path d=%22M32 11 L49 53%22 stroke=%22%23d9b25e%22 stroke-width=%227%22 stroke-linecap=%22round%22 fill=%22none%22/><path d=%22M21 35 L30 40 L21 45%22 stroke=%22%23f4f6fa%22 stroke-width=%225%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>">
+
+    {{-- PWA: instalável no telemóvel e no computador (ícone/atalho + janela sem barra de endereço). --}}
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#132743">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AlvoFlow">
+
     <script>
         // Aplica o tema guardado antes do primeiro paint, para não haver "flash" de tema errado.
         document.documentElement.setAttribute('data-theme', localStorage.getItem('alvoflow-theme') || 'light');
