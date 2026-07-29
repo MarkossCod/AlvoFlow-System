@@ -48,11 +48,17 @@
     </div>
     <script>
         // Animação de entrada (login/registo), disparada pelas páginas Vue via CustomEvent.
+        // Mostrada já no início do pedido (não só quando a resposta chega) para não haver
+        // o "flash" da página seguinte antes da animação aparecer; se o login/registo falhar,
+        // "alvoflow:enter:cancel" esconde tudo na hora para mostrar os erros do formulário.
         window.addEventListener('alvoflow:enter', function (e) {
             var el = document.getElementById('enter-transition');
             document.getElementById('enter-title').textContent = (e.detail && e.detail.title) || 'Acesso confirmado';
             el.classList.add('show');
             setTimeout(function () { el.classList.remove('show'); }, 1450);
+        });
+        window.addEventListener('alvoflow:enter:cancel', function () {
+            document.getElementById('enter-transition').classList.remove('show');
         });
 
         // Splash inicial: garante uns instantes de animação da logo antes de mostrar

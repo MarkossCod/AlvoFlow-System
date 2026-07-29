@@ -15,8 +15,14 @@ const showPassword = ref(false);
 function submit() {
     form.post(route('login'), {
         preserveScroll: true,
-        onSuccess: () => {
+        // Mostra a animação já ao submeter (tecla Enter ou clique no botão fazem o mesmo
+        // pedido) para ela cobrir o ecrã antes da troca de página do Inertia — sem isto,
+        // dava para ver o painel a piscar por baixo antes da animação aparecer.
+        onStart: () => {
             window.dispatchEvent(new CustomEvent('alvoflow:enter', { detail: { title: 'Acesso confirmado' } }));
+        },
+        onError: () => {
+            window.dispatchEvent(new CustomEvent('alvoflow:enter:cancel'));
         },
     });
 }

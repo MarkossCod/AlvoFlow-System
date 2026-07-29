@@ -27,10 +27,15 @@ function submit() {
         return;
     }
     form.post(route('register'), {
-        onSuccess: () => {
+        // Mesma lógica do Login: mostra já ao submeter para não haver "flash" da página
+        // seguinte antes da animação, e cancela na hora se o registo falhar (username em uso, etc.).
+        onStart: () => {
             window.dispatchEvent(new CustomEvent('alvoflow:enter', {
                 detail: { title: 'Bem-vindo, ' + form.username + '!' },
             }));
+        },
+        onError: () => {
+            window.dispatchEvent(new CustomEvent('alvoflow:enter:cancel'));
         },
     });
 }

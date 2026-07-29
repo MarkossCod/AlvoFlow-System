@@ -50,7 +50,7 @@ const processo = [
         </div>
 
         <div class="page-head" style="margin-bottom:14px;"><div><h1 style="font-size:17px;">Funcionalidades</h1></div></div>
-        <div class="stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin-bottom:26px;">
+        <div class="feature-grid">
             <div class="card info-tile" v-for="f in funcionalidades" :key="f.titulo">
                 <b><span v-html="f.icon" style="width:16px;height:16px;display:inline-flex;color:var(--accent);"></span> {{ f.titulo }}</b>
                 <p>{{ f.desc }}</p>

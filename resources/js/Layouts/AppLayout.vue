@@ -42,6 +42,7 @@ function closeSubmenu() {
 }
 
 function doLogout() {
+  if (!confirm('Terminar sessão?')) return;
   router.post(route('logout'));
 }
 </script>

@@ -185,6 +185,11 @@ main.view-wrap{max-width:1180px; margin:0 auto; padding:22px 20px 130px;}
 
 .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);}
 .stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:22px;}
+/* Grade de "Funcionalidades" — colunas fixas (em vez de auto-fit) para os cards ficarem
+   sempre alinhados em linhas completas, mesmo quando a última linha não enche a grade. */
+.feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:26px;}
+@media (max-width:820px){.feature-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:500px){.feature-grid{grid-template-columns:1fr;}}
 .stat{padding:20px; display:flex; flex-direction:column; gap:8px; transition:transform .28s var(--ease), box-shadow .28s var(--ease);}
 .stat:hover{transform:translateY(-4px); box-shadow:var(--shadow-md);}
 .stat .top{display:flex; align-items:center; justify-content:space-between;}
@@ -533,13 +538,15 @@ select{width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5
 .process-step p{margin:0; font-size:12px; color:var(--text-muted); line-height:1.55;}
 
 .mockup-gallery{display:flex; gap:32px; flex-wrap:wrap; align-items:flex-end; justify-content:center; padding:14px 0 4px;}
-.laptop-mockup{width:min(300px, 100%);}
+/* drop-shadow (não box-shadow) para a sombra acompanhar o ecrã + a base como um objeto só,
+   dando profundidade — sem isto o mockup ficava a parecer um retângulo cortado a direito. */
+.laptop-mockup{width:min(300px, 100%); filter:drop-shadow(0 16px 16px rgba(15,25,40,.18));}
 .laptop-mockup .screen{
   background:linear-gradient(160deg,var(--navy-900),var(--navy-800)); border-radius:12px 12px 0 0; padding:16px; height:172px;
   box-shadow:inset 0 0 0 6px var(--navy-950), var(--shadow-lg);
 }
-.laptop-mockup .base{height:12px; background:linear-gradient(180deg,#cfd6df,#aab3c0); border-radius:0 0 8px 8px; position:relative;}
-.laptop-mockup .base::after{content:''; position:absolute; left:50%; top:100%; transform:translateX(-50%); width:64px; height:6px; background:#9aa4b2; border-radius:0 0 6px 6px;}
+.laptop-mockup .base{height:14px; background:linear-gradient(180deg,#e4e9ef,#9aa4b2); border-radius:0 0 9px 9px; position:relative; box-shadow:inset 0 1px 0 rgba(255,255,255,.7);}
+.laptop-mockup .base::after{content:''; position:absolute; left:50%; top:100%; transform:translateX(-50%); width:74px; height:7px; background:linear-gradient(180deg,#9aa4b2,#7c8794); border-radius:0 0 7px 7px;}
 .mock-row{display:flex; gap:6px; margin-bottom:10px; align-items:center;}
 .mock-dot{width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.35);}
 .mock-bar{height:20px; border-radius:6px; background:rgba(255,255,255,.12); flex:1;}
