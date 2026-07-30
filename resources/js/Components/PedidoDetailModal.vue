@@ -45,14 +45,16 @@ async function excluir() {
                     <h3>{{ pedido.publicador }}</h3>
                     <div class="id">{{ pedido.codigo }}</div>
                 </div>
-                <button class="icon-btn" @click="fecharDetail">✕</button>
+                <div class="detail-head-right">
+                    <button class="icon-btn" @click="fecharDetail">✕</button>
+                    <div v-if="pedido.criado_por" class="criado-por">👤 {{ pedido.criado_por }}</div>
+                </div>
             </div>
             <div class="detail-grid">
                 <div><span class="lbl">Publicação</span><div class="val">{{ pedido.publicacao }}</div></div>
                 <div><span class="lbl">Quantidade</span><div class="val">{{ pedido.quantidade }}</div></div>
                 <div><span class="lbl">Data da Solicitação</span><div class="val">{{ formatDateBR(pedido.data) }}</div></div>
                 <div><span class="lbl">Estado</span><div class="val">{{ pedido.estado }}</div></div>
-                <div v-if="pedido.criado_por"><span class="lbl">Criado por</span><div class="val">{{ pedido.criado_por }}</div></div>
             </div>
             <div v-if="pedido.observacoes" style="margin-bottom:4px;">
                 <span class="lbl">Observações</span>
