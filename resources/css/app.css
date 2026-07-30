@@ -64,7 +64,7 @@ a{color:inherit;}
   overflow-y:auto;
 }
 .auth-card{
-  width:100%; max-width:400px; max-height:calc(100vh - 80px); overflow-y:auto; background:var(--surface); border-radius:var(--radius-lg); padding:30px 30px 26px;
+  width:100%; max-width:400px; max-height:90vh; overflow-y:auto; background:var(--surface); border-radius:var(--radius-lg); padding:30px 30px 26px;
   box-shadow:var(--shadow-lg); position:relative; margin:auto;
   animation:authCardIn .55s var(--ease);
   transition:transform .35s var(--ease), box-shadow .35s var(--ease);
@@ -186,7 +186,7 @@ a{color:inherit;}
    vertical em vez de depender do scroll interno — visual equivalente a ver a 90%. */
 @media (max-height:760px){
   .auth-screen{padding:20px 24px;}
-  .auth-card{max-height:calc(100vh - 40px); padding:22px 26px 20px;}
+  .auth-card{max-height:92vh; padding:22px 26px 20px;}
   .auth-brand{margin-bottom:12px;}
   .auth-view p.sub{margin-bottom:10px;}
   .form-section-label{margin-bottom:5px;}
