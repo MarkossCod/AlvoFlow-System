@@ -75,6 +75,8 @@ function renderDonut() {
                 backgroundColor: [warn, accent, success],
                 borderWidth: 0,
                 borderRadius: donutType.value === 'bar' ? 6 : 0,
+                barPercentage: 0.5,
+                categoryPercentage: 0.7,
             }],
         },
         // maintainAspectRatio:false -> o tamanho vem só do .chart-canvas-wrap (CSS), nunca da
@@ -109,6 +111,8 @@ function renderDia() {
                 borderRadius: diaType.value === 'bar' ? 6 : 0,
                 tension: diaType.value === 'line' ? 0.35 : 0,
                 fill: diaType.value === 'line',
+                barPercentage: diaType.value === 'bar' ? 0.5 : undefined,
+                categoryPercentage: diaType.value === 'bar' ? 0.7 : undefined,
             }],
         },
         options: {
