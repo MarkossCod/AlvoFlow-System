@@ -47,7 +47,7 @@ function salvar() {
             </div>
             <div class="detail-actions">
                 <button class="btn btn-outline" @click="fecharEdicao">Cancelar</button>
-                <button class="btn btn-primary" style="width:auto;" :disabled="form.processing" @click="salvar">💾 Guardar alterações</button>
+                <button class="btn btn-primary" style="width:auto;" :disabled="form.processing" @click="salvar">Salvar alterações</button>
             </div>
         </div>
     </div>

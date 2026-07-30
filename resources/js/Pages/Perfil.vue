@@ -45,7 +45,7 @@ function initials(name) {
                 </div>
 
                 <div class="profile-actions">
-                    <button class="btn btn-primary">💾 Guardar alterações</button>
+                    <button class="btn btn-primary">Salvar alterações</button>
                 </div>
             </div>
         </div>
