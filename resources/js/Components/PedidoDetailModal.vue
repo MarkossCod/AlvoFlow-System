@@ -58,9 +58,9 @@ async function excluir() {
                 <div class="obs">{{ pedido.observacoes }}</div>
             </div>
             <div class="detail-actions">
-                <button class="btn btn-outline" @click="editarPedido">✏️ Editar</button>
-                <button class="btn btn-outline" @click="mudarEstado">🔁 Mudar Estado</button>
-                <button class="btn" style="background:var(--danger); color:#fff; box-shadow:none;" @click="excluir">🗑️ Excluir</button>
+                <button class="btn btn-outline" @click="editarPedido">Editar</button>
+                <button class="btn btn-outline" @click="mudarEstado">Mudar Estado</button>
+                <button class="btn" style="background:var(--danger); color:#fff; box-shadow:none;" @click="excluir">Excluir</button>
             </div>
         </div>
     </div>

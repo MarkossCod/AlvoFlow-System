@@ -669,6 +669,15 @@ select{width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5
   /* Só no telemóvel: entrada suave dos cartões + feedback de toque (o hover não existe aqui). */
   .card{animation:mobileCardIn .3s var(--ease) backwards;}
   .btn:active, .icon-btn:active{transform:scale(.93);}
+  /* Modais de pedido a ecrã inteiro no telemóvel — antes ficavam como um cartão flutuante
+     centrado (max-width:460px) com uma margem escura à volta, pequeno demais e a desperdiçar
+     o ecrã; agora o cartão ocupa o ecrã do aparelho, do tamanho que for. */
+  #detail-overlay, #edit-overlay{padding:0; align-items:stretch;}
+  .detail-box{
+    max-width:none; width:100%; height:100%; max-height:none; border-radius:0;
+    overflow-y:auto; padding:20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    padding-top:calc(20px + env(safe-area-inset-top, 0px));
+  }
 }
 @keyframes mobileCardIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
 

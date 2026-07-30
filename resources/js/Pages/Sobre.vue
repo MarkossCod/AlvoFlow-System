@@ -56,11 +56,11 @@ const processo = [
                 <span class="dev-eyebrow">Criador e Desenvolvedor</span>
                 <h2>Markos Samuell</h2>
                 <p class="dev-bio">
-                    Markos Samuell é o programador por trás do AlvoFlow. A ideia nasceu da vontade de ajudar o Balcão
+                    Markos Samuell é o programador e o desenvolvedor por trás do AlvoFlow. A ideia nasceu da vontade de ajudar o Balcão
                     de Publicações da sua congregação: substituir o controlo manual em papel dos pedidos, da Sentinela
                     e das entregas por um sistema digital simples, rápido e acessível a toda a equipa. Mais do que um
                     exercício técnico, o AlvoFlow foi pensado como um projeto pessoal para poupar tempo e tornar mais
-                    organizado o trabalho de quem serve na congregação.
+                    organizado o trabalho de quem serve na congregação Alvorada de Contagem.
                 </p>
             </div>
         </div>

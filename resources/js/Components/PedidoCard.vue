@@ -34,7 +34,7 @@ function formatDateBR(iso) {
         <div class="meta"><span>🔢 Qtd: {{ pedido.quantidade }}</span><span>📅 {{ formatDateBR(pedido.data) }}</span></div>
         <div class="card-actions-row">
             <slot name="actions">
-                <button class="btn-view" @click="verPedido(pedido)">👁️ Ver detalhes</button>
+                <button class="btn-view" @click="verPedido(pedido)">Ver detalhes</button>
             </slot>
         </div>
     </div>
