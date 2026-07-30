@@ -52,6 +52,7 @@ async function excluir() {
                 <div><span class="lbl">Quantidade</span><div class="val">{{ pedido.quantidade }}</div></div>
                 <div><span class="lbl">Data da Solicitação</span><div class="val">{{ formatDateBR(pedido.data) }}</div></div>
                 <div><span class="lbl">Estado</span><div class="val">{{ pedido.estado }}</div></div>
+                <div v-if="pedido.criado_por"><span class="lbl">Criado por</span><div class="val">{{ pedido.criado_por }}</div></div>
             </div>
             <div v-if="pedido.observacoes" style="margin-bottom:4px;">
                 <span class="lbl">Observações</span>
