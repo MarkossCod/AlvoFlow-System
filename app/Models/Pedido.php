@@ -14,6 +14,7 @@ class Pedido extends Model
     protected $fillable = [
         'codigo',
         'publicador',
+        'criado_por',
         'publicacao',
         'quantidade',
         'data',

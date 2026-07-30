@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -38,8 +37,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::login($user);
-
-        return redirect()->route('home')->with('success', 'Bem-vindo, '.$user->username.'!');
+        // Não faz login automático: manda para o ecrã de Entrar para o utilizador iniciar
+        // sessão com a conta que acabou de criar (fluxo registo -> login, não registo -> app).
+        return redirect()->route('login')->with('success', 'Conta criada com sucesso! Inicie sessão para continuar.');
     }
 }

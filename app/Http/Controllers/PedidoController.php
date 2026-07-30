@@ -32,6 +32,7 @@ class PedidoController extends Controller
 
         Pedido::create([
             'publicador' => $validado['publicador'],
+            'criado_por' => $request->user()->username,
             'publicacao' => $validado['publicacao'],
             'quantidade' => $validado['quantidade'],
             'data' => $validado['data_solicitacao'],

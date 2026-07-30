@@ -31,10 +31,14 @@ function formatDateBR(iso) {
             <span class="badge" :class="badgeClass(pedido.estado)">{{ pedido.estado }}</span>
         </div>
         <div class="title"><span class="t-ico">📖</span> {{ pedido.publicacao }}</div>
-        <div class="meta"><span>🔢 Qtd: {{ pedido.quantidade }}</span><span>📅 {{ formatDateBR(pedido.data) }}</span></div>
+        <div class="meta">
+            <span>🔢 Qtd: {{ pedido.quantidade }}</span>
+            <span>📅 {{ formatDateBR(pedido.data) }}</span>
+            <span v-if="pedido.criado_por">👤 {{ pedido.criado_por }}</span>
+        </div>
         <div class="card-actions-row">
             <slot name="actions">
-                <button class="btn-view" @click="verPedido(pedido)">Ver detalhes</button>
+                <button class="btn-view" @click="verPedido(pedido)">👁️ Ver detalhes</button>
             </slot>
         </div>
     </div>
