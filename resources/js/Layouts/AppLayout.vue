@@ -53,15 +53,14 @@ const NAV_ITEMS = [
 const currentRouteName = computed(() => { void page.url; return route().current(); });
 const openSubmenu = ref(false);
 
-const theme = ref(typeof window !== 'undefined' ? (localStorage.getItem('alvoflow-theme') || 'light') : 'light');
+// "system" já não é uma opção (só Claro/Escuro) — normaliza aqui quem tinha essa preferência
+// guardada de antes, para não ficar com um tema sem botão nenhum ativo.
+const theme = ref(typeof window !== 'undefined' && localStorage.getItem('alvoflow-theme') === 'dark' ? 'dark' : 'light');
 
 function applyTheme(t) {
   theme.value = t;
   localStorage.setItem('alvoflow-theme', t);
-  const resolved = t === 'system'
-    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    : t;
-  document.documentElement.setAttribute('data-theme', resolved);
+  document.documentElement.setAttribute('data-theme', t);
 }
 
 function toggleMore() {
@@ -110,7 +109,6 @@ async function doLogout() {
         <div class="theme-row" style="padding:0 6px 6px;">
           <button :class="{ on: theme === 'light' }" @click="applyTheme('light')"><span v-html="ICONS.sun"></span><span>Claro</span></button>
           <button :class="{ on: theme === 'dark' }" @click="applyTheme('dark')"><span v-html="ICONS.moon"></span><span>Escuro</span></button>
-          <button :class="{ on: theme === 'system' }" @click="applyTheme('system')"><span v-html="ICONS.laptop"></span><span>Sistema</span></button>
         </div>
       </div>
     </div>

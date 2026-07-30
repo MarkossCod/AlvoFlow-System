@@ -17,7 +17,9 @@
 
     <script>
         // Aplica o tema guardado antes do primeiro paint, para não haver "flash" de tema errado.
-        document.documentElement.setAttribute('data-theme', localStorage.getItem('alvoflow-theme') || 'light');
+        // Só existem "light"/"dark" (opção "Sistema" removida) — qualquer outro valor guardado
+        // de antes (ou nenhum) cai em "light".
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('alvoflow-theme') === 'dark' ? 'dark' : 'light');
     </script>
     @routes
     @vite(['resources/css/app.css', 'resources/js/app.js'])
