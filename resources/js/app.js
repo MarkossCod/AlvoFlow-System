@@ -4,9 +4,12 @@ import { createInertiaApp, router } from '@inertiajs/vue3';
 import { ZiggyVue } from 'ziggy-js';
 
 createInertiaApp({
+    // Sem "eager: true": cada página vira o seu próprio ficheiro (code-splitting) em vez de
+    // tudo ficar despejado num único bundle gigante — o "prefetch" já usado nos links do menu
+    // (AppLayout.vue) carrega o chunk da próxima página em segundo plano antes do clique.
     resolve: (name) => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
-        return pages[`./Pages/${name}.vue`];
+        const pages = import.meta.glob('./Pages/**/*.vue');
+        return pages[`./Pages/${name}.vue`]();
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
