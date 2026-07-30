@@ -1,7 +1,7 @@
 <script setup>
 // Dashboard: estatísticas de pedidos, gráficos (Chart.js), exportação em PDF e um resumo
 // de monitoramento/conta. "isMarkin" controla o link para a administração de utilizadores.
-import { onMounted, computed, ref, watch } from 'vue';
+import { onMounted, onUnmounted, computed, ref, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import Chart from 'chart.js/auto';
 import jsPDF from 'jspdf';
@@ -47,21 +47,24 @@ const donutType = ref('doughnut'); // doughnut | pie | bar
 const diaType = ref('bar'); // bar | line
 let donutChart = null;
 let diaChart = null;
-let cores = null;
 
+// Nunca cacheado: os gráficos são canvas (Chart.js pinta o texto/linhas a partir destas cores,
+// não de CSS), por isso têm de ser relidos sempre que renderizam — incluindo depois de mudar de
+// tema (ver MutationObserver mais abaixo), senão os eixos ficavam com a cor do tema antigo até
+// recarregar a página.
 function getCores() {
-    if (cores) return cores;
     const style = getComputedStyle(document.documentElement);
-    cores = {
+    return {
         warn: style.getPropertyValue('--warn').trim() || '#b8860b',
         accent: style.getPropertyValue('--accent').trim() || '#0f6c7c',
         success: style.getPropertyValue('--success').trim() || '#1e8a5f',
+        texto: style.getPropertyValue('--text-muted').trim() || '#666',
+        grelha: style.getPropertyValue('--border').trim() || 'rgba(0,0,0,.1)',
     };
-    return cores;
 }
 
 function renderDonut() {
-    const { warn, accent, success } = getCores();
+    const { warn, accent, success, texto, grelha } = getCores();
     donutChart?.destroy();
     donutChart = new Chart(document.getElementById('chart-donut'), {
         type: donutType.value,
@@ -79,15 +82,20 @@ function renderDonut() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: donutType.value !== 'bar', position: 'bottom' } },
+            plugins: { legend: { display: donutType.value !== 'bar', position: 'bottom', labels: { color: texto } } },
             cutout: donutType.value === 'doughnut' ? '68%' : 0,
-            scales: donutType.value === 'bar' ? { y: { beginAtZero: true } } : undefined,
+            // precision:0 -> os pedidos são sempre um número inteiro; sem isto o Chart.js
+            // dividia o eixo em passos "bonitos" tipo 0.1/0.2, sem sentido nenhum para uma contagem.
+            scales: donutType.value === 'bar' ? {
+                y: { beginAtZero: true, ticks: { color: texto, precision: 0 }, grid: { color: grelha } },
+                x: { ticks: { color: texto }, grid: { display: false } },
+            } : undefined,
         },
     });
 }
 
 function renderDia() {
-    const { accent } = getCores();
+    const { accent, texto, grelha } = getCores();
     diaChart?.destroy();
     diaChart = new Chart(document.getElementById('chart-dia'), {
         type: diaType.value,
@@ -107,7 +115,10 @@ function renderDia() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } },
+            scales: {
+                y: { beginAtZero: true, ticks: { color: texto, precision: 0 }, grid: { color: grelha } },
+                x: { ticks: { color: texto }, grid: { color: grelha } },
+            },
         },
     });
 }
@@ -115,6 +126,12 @@ function renderDia() {
 onMounted(() => { renderDonut(); renderDia(); });
 watch(donutType, renderDonut);
 watch(diaType, renderDia);
+
+// Recria os gráficos quando o tema (Claro/Escuro) muda enquanto esta página está aberta —
+// sem isto, os eixos/legenda ficavam com a cor do tema anterior até um recarregamento manual.
+let temaObserver = new MutationObserver(() => { renderDonut(); renderDia(); });
+temaObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+onUnmounted(() => temaObserver.disconnect());
 
 function exportarPDF() {
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });

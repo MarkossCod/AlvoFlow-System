@@ -37,15 +37,7 @@ function submit() {
                     </div>
                     <div class="field">
                         <label>Publicação Solicitada</label>
-                        <input v-model="form.publicacao" type="text" placeholder="Ex: Sentinela, Despertai, Bíblia..." list="pub-list" required />
-                        <datalist id="pub-list">
-                            <option>A Sentinela</option>
-                            <option>Despertai!</option>
-                            <option>Bíblia — Tradução do Novo Mundo</option>
-                            <option>Ame as Pessoas</option>
-                            <option>Ensina</option>
-                            <option>Cartão de Visita</option>
-                        </datalist>
+                        <input v-model="form.publicacao" type="text" placeholder="Ex: Sentinela, Despertai, Bíblia..." required />
                     </div>
                     <div class="field">
                         <label>Quantidade</label>

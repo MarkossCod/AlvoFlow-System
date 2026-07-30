@@ -61,6 +61,7 @@ function applyTheme(t) {
   theme.value = t;
   localStorage.setItem('alvoflow-theme', t);
   document.documentElement.setAttribute('data-theme', t);
+  closeSubmenu();
 }
 
 function toggleMore() {
